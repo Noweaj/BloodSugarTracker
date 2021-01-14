@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">BloodSugarTracker</string>
+    <string name="title_bottomnav_chart">차트보기</string>
+    <string name="title_bottomnav_add">추가하기</string>
+    <string name="title_bottomnav_settings">설정</string>
+    <string name="title_event_main">이벤트를 선택하세요</string>
+    <string name="title_event_meal">식사 입력</string>
+    <string name="title_event_bloodsugar">식후 혈당 측정</string>
+    <string name="title_event_exercise">운동 후 혈당 측정</string>
+</resources>

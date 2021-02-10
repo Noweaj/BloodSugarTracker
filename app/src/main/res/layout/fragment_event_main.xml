@@ -3,27 +3,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="10dp">
 
     <Button
         android:id="@+id/b_event_meal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/b_event_bloodsugar"/>
+        app:layout_constraintBottom_toTopOf="@id/b_event_glucose"
+        android:text="meal"/>
 
     <Button
-        android:id="@+id/b_event_bloodsugar"
+        android:id="@+id/b_event_glucose"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/b_event_meal"
-        app:layout_constraintBottom_toTopOf="@id/b_event_exercise"/>
+        app:layout_constraintBottom_toTopOf="@id/b_event_exercise"
+        android:text="glucose"/>
 
     <Button
         android:id="@+id/b_event_exercise"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/b_event_bloodsugar"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/b_event_glucose"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="exercise"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

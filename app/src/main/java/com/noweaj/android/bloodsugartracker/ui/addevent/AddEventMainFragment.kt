@@ -21,9 +21,9 @@ class AddEventMainFragment: Fragment() {
         b_event_meal.setOnClickListener{
             findNavController().navigate(AddEventMainFragmentDirections.actionEventMainToMeal())
         }
-        val b_event_bloodsugar: Button = root.findViewById(R.id.b_event_bloodsugar)
+        val b_event_bloodsugar: Button = root.findViewById(R.id.b_event_glucose)
         b_event_bloodsugar.setOnClickListener{
-            findNavController().navigate(AddEventMainFragmentDirections.actionEventMainToBloodsugar())
+            findNavController().navigate(AddEventMainFragmentDirections.actionEventMainToGlucose())
         }
         val b_event_exercise: Button = root.findViewById(R.id.b_event_exercise)
         b_event_exercise.setOnClickListener{

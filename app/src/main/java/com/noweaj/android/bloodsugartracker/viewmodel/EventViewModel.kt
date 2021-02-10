@@ -1,10 +1,10 @@
-package com.noweaj.android.bloodsugartracker.ui.addevent
+package com.noweaj.android.bloodsugartracker.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class AddEventViewModel : ViewModel() {
+class EventViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"

@@ -1,4 +1,4 @@
-package com.noweaj.android.bloodsugartracker.ui.chart
+package com.noweaj.android.bloodsugartracker.ui
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -138,5 +138,4 @@ class ChartFragment : Fragment() {
 
         return data
     }
-
 }

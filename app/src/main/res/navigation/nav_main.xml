@@ -7,19 +7,53 @@
 
     <fragment
         android:id="@+id/fragment_main_chart"
-        android:name="com.noweaj.android.bloodsugartracker.ui.chart.ChartFragment"
-        android:label="@string/title_bottomnav_chart"
+        android:name="com.noweaj.android.bloodsugartracker.ui.ChartFragment"
+        android:label="@string/string_title_bottomnav_chart"
         tools:layout="@layout/fragment_chart" />
 
     <fragment
-        android:id="@+id/fragment_main_addevent"
-        android:name="com.noweaj.android.bloodsugartracker.ui.addevent.AddEventFragment"
-        android:label="@string/title_bottomnav_add"
-        tools:layout="@layout/fragment_addevent" />
+        android:id="@+id/fragment_main_event"
+        android:name="com.noweaj.android.bloodsugartracker.ui.event.EventFragment"
+        android:label="@string/string_title_bottomnav_add"
+        tools:layout="@layout/fragment_event" >
+
+        <action
+            android:id="@+id/action_main_event_to_event_add"
+            app:destination="@id/fragment_event_add"/>
+
+        <action
+            android:id="@+id/action_main_event_to_event_delete"
+            app:destination="@id/fragment_event_delete"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/fragment_main_settings"
         android:name="com.noweaj.android.bloodsugartracker.ui.settings.SettingsFragment"
-        android:label="@string/title_bottomnav_settings"
+        android:label="@string/string_title_bottomnav_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/fragment_event_add"
+        android:name="com.noweaj.android.bloodsugartracker.ui.event.EventAddFragment"
+        tools:layout="@layout/fragment_event_add">
+
+        <argument
+            android:name="eventEntity"
+            app:argType="com.noweaj.android.bloodsugartracker.data.entity.EventEntity" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_event_delete"
+        android:name="com.noweaj.android.bloodsugartracker.ui.event.EventDeleteFragment"
+        tools:layout="@layout/fragment_event_delete">
+
+        <argument
+            android:name="noarg"
+            app:argType="long"
+            android:defaultValue="-1L"/>
+
+    </fragment>
+
 </navigation>

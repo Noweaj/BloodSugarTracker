@@ -4,16 +4,16 @@
     <item
         android:id="@+id/fragment_main_chart"
         android:icon="@drawable/ic_baseline_show_chart_24_000000"
-        android:title="@string/title_bottomnav_chart" />
+        android:title="@string/string_title_bottomnav_chart" />
 
     <item
-        android:id="@+id/fragment_main_addevent"
+        android:id="@+id/fragment_main_event"
         android:icon="@drawable/ic_baseline_add_24_000000"
-        android:title="@string/title_bottomnav_add" />
+        android:title="@string/string_title_bottomnav_add" />
 
     <item
         android:id="@+id/fragment_main_settings"
         android:icon="@drawable/ic_baseline_settings_24_000000"
-        android:title="@string/title_bottomnav_settings" />
+        android:title="@string/string_title_bottomnav_settings" />
 
 </menu>

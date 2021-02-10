@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 abstract class AppDatabase: RoomDatabase(){
-    abstract fun recordDao(): RecordDao
+    abstract fun recordDao(): EventDao
 
     companion object{
         private val DB_NAME = "bloodsugar-db"

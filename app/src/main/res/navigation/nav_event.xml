@@ -15,8 +15,8 @@
             app:destination="@id/fragment_event_meal"/>
 
         <action
-            android:id="@+id/action_event_main_to_bloodsugar"
-            app:destination="@id/fragment_event_bloodsugar"/>
+            android:id="@+id/action_event_main_to_glucose"
+            app:destination="@id/fragment_event_glucose"/>
 
         <action
             android:id="@+id/action_event_main_to_exercise"
@@ -37,9 +37,9 @@
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_event_bloodsugar"
-        android:name="com.noweaj.android.bloodsugartracker.ui.addevent.AddEventBloodsugarFragment"
-        tools:layout="@layout/fragment_event_bloodsugar">
+        android:id="@+id/fragment_event_glucose"
+        android:name="com.noweaj.android.bloodsugartracker.ui.addevent.AddEventGlucoseFragment"
+        tools:layout="@layout/fragment_event_glucose">
 
         <argument
             android:name="itemid"
@@ -51,7 +51,7 @@
     <fragment
         android:id="@+id/fragment_event_exercise"
         android:name="com.noweaj.android.bloodsugartracker.ui.addevent.AddEventExerciseFragment"
-        tools:layout="@layout/fragment_event_bloodsugar">
+        tools:layout="@layout/fragment_event_glucose">
 
         <argument
             android:name="itemid"

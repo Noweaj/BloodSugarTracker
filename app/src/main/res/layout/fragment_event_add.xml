@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.noweaj.android.bloodsugartracker.viewmodel.EventAddViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/et_glucose_timestamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@={viewModel.timeStamp}"/>
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/acs_glucose_event"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/et_glucose_timestamp"
+            android:entries="@array/array_string_event"/>
+
+        <EditText
+            android:id="@+id/et_glucose_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/acs_glucose_event"
+            android:text="@={viewModel.glucose}"/>
+
+        <EditText
+            android:id="@+id/et_glucose_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/et_glucose_value"
+            app:layout_constraintBottom_toTopOf="@id/b_glucose_save"
+            android:text="@={viewModel.note}"/>
+
+        <Button
+            android:id="@+id/b_glucose_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="save"
+            android:onClick="@{()->viewModel.onSaveButtonClicked()}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 
-class EventAddViewModel: ViewModel() {
+class EventAddTimeEventViewModel: ViewModel() {
 
-    private val TAG = EventAddViewModel::class.java.simpleName
+    private val TAG = EventAddTimeEventViewModel::class.java.simpleName
 
     val timeStamp = ObservableField<String>()
     val event = ObservableField<String>()

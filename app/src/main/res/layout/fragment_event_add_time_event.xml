@@ -6,31 +6,31 @@
     <data>
         <variable
             name="viewModel"
-            type="com.noweaj.android.bloodsugartracker.viewmodel.EventAddViewModel" />
+            type="com.noweaj.android.bloodsugartracker.viewmodel.EventAddTimeEventViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/et_glucose_timestamp"
+            android:id="@+id/et_event_timestamp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             android:text="@={viewModel.timeStamp}"/>
 
         <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/acs_glucose_event"
+            android:id="@+id/acs_event_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/et_glucose_timestamp"
+            app:layout_constraintTop_toBottomOf="@id/et_event_timestamp"
             android:entries="@array/array_string_event"/>
 
         <EditText
             android:id="@+id/et_glucose_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/acs_glucose_event"
+            app:layout_constraintTop_toBottomOf="@id/acs_event_event"
             android:text="@={viewModel.glucose}"/>
 
         <EditText

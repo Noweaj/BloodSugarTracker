@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@={viewModel.timeStamp}"/>
+            android:text="@={viewModel.timestamp}"/>
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/acs_event_event"
@@ -26,28 +26,13 @@
             app:layout_constraintTop_toBottomOf="@id/et_event_timestamp"
             android:entries="@array/array_string_event"/>
 
-        <EditText
-            android:id="@+id/et_glucose_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/acs_event_event"
-            android:text="@={viewModel.glucose}"/>
-
-        <EditText
-            android:id="@+id/et_glucose_note"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/et_glucose_value"
-            app:layout_constraintBottom_toTopOf="@id/b_glucose_save"
-            android:text="@={viewModel.note}"/>
-
         <Button
-            android:id="@+id/b_glucose_save"
+            android:id="@+id/b_event_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:text="save"
-            android:onClick="@{()->viewModel.onSaveButtonClicked()}"/>
+            android:text="next"
+            android:onClick="@{()->viewModel.onNextButtonClicked()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

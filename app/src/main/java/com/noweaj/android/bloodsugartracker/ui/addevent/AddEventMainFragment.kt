@@ -17,16 +17,16 @@ class AddEventMainFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_event_main, container, false)
-        val b_event_meal: Button = root.findViewById(R.id.b_event_meal)
-        b_event_meal.setOnClickListener{
+        val bEventMeal: Button = root.findViewById(R.id.b_event_meal)
+        bEventMeal.setOnClickListener{
             findNavController().navigate(AddEventMainFragmentDirections.actionEventMainToMeal())
         }
-        val b_event_bloodsugar: Button = root.findViewById(R.id.b_event_glucose)
-        b_event_bloodsugar.setOnClickListener{
+        val bEventGlucose: Button = root.findViewById(R.id.b_event_glucose)
+        bEventGlucose.setOnClickListener{
             findNavController().navigate(AddEventMainFragmentDirections.actionEventMainToGlucose())
         }
-        val b_event_exercise: Button = root.findViewById(R.id.b_event_exercise)
-        b_event_exercise.setOnClickListener{
+        val bEventExercise: Button = root.findViewById(R.id.b_event_exercise)
+        bEventExercise.setOnClickListener{
             findNavController().navigate(AddEventMainFragmentDirections.actionEventMainToExercise())
         }
         return root

@@ -28,19 +28,31 @@ class EventFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_event, container, false)
         val bEventMeal: Button = root.findViewById(R.id.b_event_meal)
         bEventMeal.setOnClickListener{
-            findNavController().navigate(EventFragmentDirections.actionMainEventToEventAdd(createEventEntity("meal")))
+            findNavController().navigate(
+                    EventFragmentDirections
+                            .actionMainEventToEventAddTimeEvent(createEventEntity("meal"))
+            )
         }
         val bEventGlucose: Button = root.findViewById(R.id.b_event_glucose)
         bEventGlucose.setOnClickListener{
-            findNavController().navigate(EventFragmentDirections.actionMainEventToEventAdd(createEventEntity("glucose")))
+            findNavController().navigate(
+                    EventFragmentDirections
+                            .actionMainEventToEventAddTimeEvent(createEventEntity("glucose"))
+            )
         }
         val bEventExercise: Button = root.findViewById(R.id.b_event_exercise)
         bEventExercise.setOnClickListener{
-            findNavController().navigate(EventFragmentDirections.actionMainEventToEventAdd(createEventEntity("exercise")))
+            findNavController().navigate(
+                    EventFragmentDirections
+                            .actionMainEventToEventAddTimeEvent(createEventEntity("exercise"))
+            )
         }
         val tvEventDelete: TextView = root.findViewById(R.id.tv_event_delete)
         tvEventDelete.setOnClickListener{
-            findNavController().navigate(EventFragmentDirections.actionMainEventToEventDelete())
+            findNavController().navigate(
+                    EventFragmentDirections
+                            .actionMainEventToEventDelete()
+            )
         }
         return root
     }

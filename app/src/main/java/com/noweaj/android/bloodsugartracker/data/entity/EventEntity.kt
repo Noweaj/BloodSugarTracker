@@ -9,8 +9,8 @@ import java.util.*
 @Entity(tableName = "eventENTITY")
 @Parcelize
 data class EventEntity(
-        @PrimaryKey val timestamp: Long,
-        val event: String,
-        var value: Int = 0,
-        var note: String? = null
+    @PrimaryKey var timestamp: Long,
+    var event: String,
+    var value: Int = 0,
+    var note: String? = null
 ): Parcelable

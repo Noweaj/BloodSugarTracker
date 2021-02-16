@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_event" >
 
         <action
-            android:id="@+id/action_main_event_to_event_add"
-            app:destination="@id/fragment_event_add_timeevent"/>
+            android:id="@+id/action_main_event_to_event_add_time_event"
+            app:destination="@id/fragment_event_add_time_event"/>
 
         <action
             android:id="@+id/action_main_event_to_event_delete"
@@ -34,7 +34,7 @@
         tools:layout="@layout/fragment_settings" />
 
     <fragment
-        android:id="@+id/fragment_event_add_timeevent"
+        android:id="@+id/fragment_event_add_time_event"
         android:name="com.noweaj.android.bloodsugartracker.ui.event.EventAddTimeEventFragment"
         tools:layout="@layout/fragment_event_add_time_event">
 
@@ -43,19 +43,19 @@
             app:argType="com.noweaj.android.bloodsugartracker.data.entity.EventEntity" />
 
         <action
-            android:id="@+id/action_event_add_timeevent_to_event_add_valuenote"
-            app:destination="@id/fragment_event_add_valuenote"/>
+            android:id="@+id/action_event_add_time_event_to_event_add_value_note"
+            app:destination="@id/fragment_event_add_value_note"/>
 
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_event_add_valuenote"
+        android:id="@+id/fragment_event_add_value_note"
         android:name="com.noweaj.android.bloodsugartracker.ui.event.EventAddValueNoteFragment"
         tools:layout="@layout/fragment_event_add_value_note">
 
         <argument
             android:name="eventEntity"
-            app:argType="com.noweaj.android.bloodsugartracker.data.entity.EventEntity"/>
+            app:argType="com.noweaj.android.bloodsugartracker.data.entity.EventEntity" />
 
     </fragment>
 

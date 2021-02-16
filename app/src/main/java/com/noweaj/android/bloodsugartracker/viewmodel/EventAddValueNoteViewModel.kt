@@ -7,29 +7,29 @@ import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
 import com.noweaj.android.bloodsugartracker.navigator.EventNavigator
 import java.lang.ref.WeakReference
 
-class EventAddTimeEventViewModel(
-    entity: EventEntity
+class EventAddValueNoteViewModel(
+    private val entity: EventEntity
 ): ViewModel() {
 
-    private val TAG = EventAddTimeEventViewModel::class.java.simpleName
+    private val TAG = EventAddValueNoteViewModel::class.java.simpleName
 
     private var navigator: WeakReference<EventNavigator>? = null
 
-    val timestamp = ObservableField(entity.timestamp.toString())
-    val event = ObservableField(entity.event)
+    val glucose = ObservableField<String>()
+    val note = ObservableField<String>()
 
     fun setNavigator(navigator: EventNavigator){
         this.navigator = WeakReference(navigator)
     }
 
-    fun onNextButtonClicked(){
-        Log.d(TAG, "timestamp: ${timestamp.get()}, event: ${event.get()}")
+    fun onSaveButtonClicked(){
+        Log.d(TAG, "glucose: ${glucose.get()}, note: ${note.get()}")
         navigator?.let {
             it.get()!!.proceed(EventEntity(
-                timestamp = timestamp.get()!!.toLong(),
-                event = event.get()!!,
-                value = 0,
-                note = null
+                timestamp = entity.timestamp,
+                event = entity.event,
+                value = Integer.parseInt(glucose.get()),
+                note = note.get()
             ))
         }
     }

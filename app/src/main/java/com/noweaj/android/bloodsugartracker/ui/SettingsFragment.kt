@@ -1,4 +1,4 @@
-package com.noweaj.android.bloodsugartracker.ui.settings
+package com.noweaj.android.bloodsugartracker.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -2,35 +2,40 @@ package com.noweaj.android.bloodsugartracker.viewmodel
 
 import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
-import com.noweaj.android.bloodsugartracker.navigator.EventNavigator
+import com.noweaj.android.bloodsugartracker.data.repository.EventRepository
 import java.lang.ref.WeakReference
 
 class EventAddValueNoteViewModel(
-    private val entity: EventEntity
+    private val repository: EventRepository
 ): ViewModel() {
 
     private val TAG = EventAddValueNoteViewModel::class.java.simpleName
 
-    private var navigator: WeakReference<EventNavigator>? = null
+    private var entity: WeakReference<EventEntity>? = null
 
     val glucose = ObservableField<String>()
     val note = ObservableField<String>()
 
-    fun setNavigator(navigator: EventNavigator){
-        this.navigator = WeakReference(navigator)
+    fun setEventEntity(eventEntity: EventEntity){
+        this.entity = WeakReference(eventEntity)
+    }
+
+    private val _insertEvent = MutableLiveData<EventEntity>()
+    val insertEvent = _insertEvent.switchMap {
+        repository.insertSingleEvent(it)
     }
 
     fun onSaveButtonClicked(){
         Log.d(TAG, "glucose: ${glucose.get()}, note: ${note.get()}")
-        navigator?.let {
-            it.get()!!.proceed(EventEntity(
-                timestamp = entity.timestamp,
-                event = entity.event,
-                value = Integer.parseInt(glucose.get()),
-                note = note.get()
-            ))
-        }
+        _insertEvent.postValue(EventEntity(
+            timestamp = entity!!.get()!!.timestamp,
+            event = entity!!.get()!!.event,
+            value = Integer.parseInt(glucose.get()),
+            note = note.get()
+        ))
     }
 }

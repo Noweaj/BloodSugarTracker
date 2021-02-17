@@ -24,7 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/et_event_timestamp"
-            android:entries="@array/array_string_event"/>
+            android:entries="@array/array_string_event"
+            android:onItemSelected="@{viewModel::onSpinnerItemSelected}"/>
 
         <Button
             android:id="@+id/b_event_next"

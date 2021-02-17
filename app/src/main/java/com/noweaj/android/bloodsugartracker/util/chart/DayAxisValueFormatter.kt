@@ -1,9 +1,8 @@
-package com.noweaj.android.bloodsugartracker.chart
+package com.noweaj.android.bloodsugartracker.util.chart
 
 import com.github.mikephil.charting.charts.CombinedChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.noweaj.android.bloodsugartracker.util.DateUtil
 
 class DayAxisValueFormatter(val chart: CombinedChart): ValueFormatter() {
 

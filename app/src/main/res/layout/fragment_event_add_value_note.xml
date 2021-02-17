@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@={viewModel.glucose}"/>
+            android:text="@={viewModel.glucose}"
+            android:inputType="numberDecimal"/>
 
         <EditText
             android:id="@+id/et_event_note"

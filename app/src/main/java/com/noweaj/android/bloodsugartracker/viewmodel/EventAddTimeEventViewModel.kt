@@ -1,6 +1,8 @@
 package com.noweaj.android.bloodsugartracker.viewmodel
 
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
@@ -20,6 +22,10 @@ class EventAddTimeEventViewModel(
 
     fun setNavigator(navigator: EventNavigator){
         this.navigator = WeakReference(navigator)
+    }
+
+    fun onSpinnerItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long){
+        Log.d(TAG, "onSpinnerItemSelected: $position ${parent.getItemAtPosition(position)}")
     }
 
     fun onNextButtonClicked(){

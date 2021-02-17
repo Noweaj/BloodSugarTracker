@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/fragment_main_settings"
-        android:name="com.noweaj.android.bloodsugartracker.ui.settings.SettingsFragment"
+        android:name="com.noweaj.android.bloodsugartracker.ui.SettingsFragment"
         android:label="@string/string_title_bottomnav_settings"
         tools:layout="@layout/fragment_settings" />
 
@@ -37,21 +37,27 @@
         android:id="@+id/fragment_event_add_time_event"
         android:name="com.noweaj.android.bloodsugartracker.ui.event.EventAddTimeEventFragment"
         tools:layout="@layout/fragment_event_add_time_event">
-
-        <argument
-            android:name="eventEntity"
-            app:argType="com.noweaj.android.bloodsugartracker.data.entity.EventEntity" />
-
+        
         <action
             android:id="@+id/action_event_add_time_event_to_event_add_value_note"
             app:destination="@id/fragment_event_add_value_note"/>
 
+        <argument
+            android:name="eventEntity"
+            app:argType="com.noweaj.android.bloodsugartracker.data.entity.EventEntity" />
+        
     </fragment>
 
     <fragment
         android:id="@+id/fragment_event_add_value_note"
         android:name="com.noweaj.android.bloodsugartracker.ui.event.EventAddValueNoteFragment"
         tools:layout="@layout/fragment_event_add_value_note">
+        
+        <action
+            android:id="@+id/action_event_add_value_note_to_chart_fragment"
+            app:destination="@id/fragment_main_chart"
+            app:popUpTo="@id/fragment_main_chart"
+            app:popUpToInclusive="true"/>
 
         <argument
             android:name="eventEntity"

@@ -7,35 +7,56 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.CombinedChart
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.noweaj.android.bloodsugartracker.R
-import com.noweaj.android.bloodsugartracker.chart.DayAxisValueFormatter
+import com.noweaj.android.bloodsugartracker.data.local.AppDatabase
+import com.noweaj.android.bloodsugartracker.databinding.FragmentChartBinding
+import com.noweaj.android.bloodsugartracker.util.chart.DayAxisValueFormatter
+import com.noweaj.android.bloodsugartracker.util.InjectionUtil
 import com.noweaj.android.bloodsugartracker.viewmodel.ChartViewModel
 
 class ChartFragment : Fragment() {
+    
+    private val TAG = ChartFragment::class.java.simpleName
 
-    private lateinit var chartViewModel: ChartViewModel
+    private val viewModel: ChartViewModel by viewModels { 
+        InjectionUtil.provideChartViewModelFactory(
+            InjectionUtil.provideRepository(AppDatabase.getInstance(requireContext()).eventDao())
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        chartViewModel =
-                ViewModelProvider(this).get(ChartViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_chart, container, false)
-//        val textView: TextView = root.findViewById(R.id.text_home)
-//        chartViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
+        val binding = FragmentChartBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
+        
+        setupChart(binding)
+        
+        setChart(binding.root)
 
-        setChart(root)
-
-        return root
+        return binding.root
+    }
+    
+    private fun setupChart(binding: FragmentChartBinding){
+        val linearLayoutManager = object: LinearLayoutManager(requireActivity().applicationContext){
+            override fun checkLayoutParams(lp: RecyclerView.LayoutParams?): Boolean {
+                lp!!.height = height/3
+                return true
+            }
+        }
+        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        binding.rvChart.layoutManager = linearLayoutManager
+        
+        
     }
 
     private fun setChart(root: View){

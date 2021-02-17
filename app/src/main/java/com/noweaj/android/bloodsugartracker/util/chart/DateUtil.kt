@@ -1,4 +1,4 @@
-package com.noweaj.android.bloodsugartracker.util
+package com.noweaj.android.bloodsugartracker.util.chart
 
 class DateUtil {
 
@@ -28,8 +28,14 @@ class DateUtil {
                 month += 1
                 if(month >= 12)
                     month = 0
-                val year = determineYear(days)
-                days += getDaysForMonth(month, year);
+                val year =
+                    determineYear(
+                        days
+                    )
+                days += getDaysForMonth(
+                    month,
+                    year
+                );
             }
             return Math.max(month, 0)
         }
@@ -39,8 +45,14 @@ class DateUtil {
             var daysForMonth = 0
 
             while(count < month){
-                val year = determineYear(daysForMonth)
-                daysForMonth += getDaysForMonth(count % 12, year)
+                val year =
+                    determineYear(
+                        daysForMonth
+                    )
+                daysForMonth += getDaysForMonth(
+                    count % 12,
+                    year
+                )
                 count++
             }
             return days - daysForMonth

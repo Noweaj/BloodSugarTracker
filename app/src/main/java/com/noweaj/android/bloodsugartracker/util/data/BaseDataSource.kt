@@ -1,4 +1,4 @@
-package com.noweaj.android.bloodsugartracker.util
+package com.noweaj.android.bloodsugartracker.util.data
 
 class BaseDataSource {
 

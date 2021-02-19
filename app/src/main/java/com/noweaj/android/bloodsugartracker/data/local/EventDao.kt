@@ -5,8 +5,8 @@ import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
 
 @Dao
 interface EventDao {
-    @Query("SELECT * FROM eventENTITY WHERE timestamp BETWEEN :startDate AND :endDate")
-    fun getEntitiesBetweenDates(startDate: Long, endDate: Long): List<EventEntity>
+    @Query("SELECT * FROM eventENTITY WHERE timestamp BETWEEN :from AND :to")
+    fun getEntitiesBetweenDates(from: Long, to: Long): List<EventEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertEntity(entity: EventEntity): Long

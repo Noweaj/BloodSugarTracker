@@ -1,14 +1,12 @@
 package com.noweaj.android.bloodsugartracker.data.repository
 
+import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
 import com.noweaj.android.bloodsugartracker.data.local.EventLocalDataSource
-import com.noweaj.android.bloodsugartracker.util.data.performLocalDeleteOperation
-import com.noweaj.android.bloodsugartracker.util.data.performLocalGetOperation
-import com.noweaj.android.bloodsugartracker.util.data.performLocalMultipleInsertOperation
-import com.noweaj.android.bloodsugartracker.util.data.performLocalSingleInsertOperation
+import com.noweaj.android.bloodsugartracker.util.data.*
 
 class EventRepository(
-    private val localDataSource:EventLocalDataSource
+    private val localDataSource: EventLocalDataSource
 ) {
 
     /**
@@ -27,7 +25,11 @@ class EventRepository(
             method = { localDataSource.deleteEntities(eventEntities) }
         )
     fun getEntitiesBetweenDates(startDate: Long, endDate: Long) =
-        performLocalGetOperation(
+        performLocalGetEventOperation(
             method = { localDataSource.getEntitiesBetweenDates(startDate, endDate) }
+        )
+    fun getEntitiesByChartList(chartEntities: List<ChartEntity>?) =
+        performLocalGetEventByChartOperation(
+            method = { localDataSource.getEntitiesBetweenDatesByChart(chartEntities) }
         )
 }

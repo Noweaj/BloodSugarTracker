@@ -1,6 +1,8 @@
 package com.noweaj.android.bloodsugartracker.data.local
 
+import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
+import com.noweaj.android.bloodsugartracker.util.chart.ChartData
 import com.noweaj.android.bloodsugartracker.util.data.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -57,6 +59,32 @@ class EventLocalDataSource(
         return Resource(
             Resource.Status.SUCCESS,
             eventEntities,
+            null
+        )
+    }
+    
+    suspend fun getEntitiesBetweenDatesByChart(chartEntities: List<ChartEntity>?): Resource<ChartData> {
+        chartEntities?: return Resource(
+            Resource.Status.ERROR,
+            null,
+            "chartEntities is null"
+        )
+        val eventEntities = mutableListOf<List<EventEntity>>()
+        for(i in chartEntities.indices){
+            val getJob = CoroutineScope(Dispatchers.IO).launch { 
+                eventEntities.add(dao.getEntitiesBetweenDates(
+                    chartEntities.get(i).from,
+                    chartEntities.get(i).to
+                ))
+            }
+            getJob.join()
+        }
+        return Resource(
+            Resource.Status.SUCCESS,
+            ChartData(
+                chartEntities = chartEntities,
+                eventEntitiesPerChart = eventEntities
+            ),
             null
         )
     }

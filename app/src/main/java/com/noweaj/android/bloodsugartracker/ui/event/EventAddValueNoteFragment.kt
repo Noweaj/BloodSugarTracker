@@ -22,7 +22,7 @@ class EventAddValueNoteFragment: Fragment() {
 
     private val viewModel: EventAddValueNoteViewModel by viewModels {
         InjectionUtil.provideEventAddValueNoteViewModelFactory(
-            InjectionUtil.provideRepository(AppDatabase.getInstance(requireContext()).eventDao())
+            InjectionUtil.provideEventRepository(AppDatabase.getInstance(requireContext()).eventDao())
         )
     }
 

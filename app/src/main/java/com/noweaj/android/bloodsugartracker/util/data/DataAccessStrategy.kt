@@ -2,7 +2,9 @@ package com.noweaj.android.bloodsugartracker.util.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
+import com.noweaj.android.bloodsugartracker.util.chart.ChartData
 import kotlinx.coroutines.Dispatchers
 
 fun performLocalSingleInsertOperation(
@@ -44,10 +46,36 @@ fun performLocalDeleteOperation(
         }
     }
 
-fun performLocalGetOperation(
+fun performLocalGetEventOperation(
     method: suspend() -> Resource<List<EventEntity>>
 ): LiveData<Resource<List<EventEntity>>> =
     liveData(Dispatchers.IO) {
+        emit(Resource.loading())
+        val getResult = method.invoke()
+        if(getResult.status == Resource.Status.SUCCESS){
+            emit(Resource.success(getResult.data!!))
+        } else {
+            emit(Resource.error(getResult.message!!, null))
+        }
+    }
+
+fun performLocalGetChartOperation(
+    method: suspend() -> Resource<List<ChartEntity>>
+): LiveData<Resource<List<ChartEntity>>> = 
+    liveData(Dispatchers.IO) { 
+        emit(Resource.loading())
+        val getResult = method.invoke()
+        if(getResult.status == Resource.Status.SUCCESS){
+            emit(Resource.success(getResult.data!!))
+        } else {
+            emit(Resource.error(getResult.message!!, null))
+        }
+    }
+
+fun performLocalGetEventByChartOperation(
+    method: suspend() -> Resource<ChartData>
+): LiveData<Resource<ChartData>> =
+    liveData(Dispatchers.IO) { 
         emit(Resource.loading())
         val getResult = method.invoke()
         if(getResult.status == Resource.Status.SUCCESS){

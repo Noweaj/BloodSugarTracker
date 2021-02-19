@@ -4,11 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
 
-@Database(entities = [EventEntity::class], version = 1)
+@Database(entities = [ChartEntity::class, EventEntity::class], version = 2)
 abstract class AppDatabase: RoomDatabase(){
     abstract fun eventDao(): EventDao
+    abstract fun chartDao(): ChartDao
 
     companion object{
         private val DB_NAME = "bloodsugar-db"

@@ -1,25 +1,36 @@
 package com.noweaj.android.bloodsugartracker.util
 
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
+import com.noweaj.android.bloodsugartracker.data.local.ChartDao
+import com.noweaj.android.bloodsugartracker.data.local.ChartLocalDataSource
 import com.noweaj.android.bloodsugartracker.data.local.EventDao
 import com.noweaj.android.bloodsugartracker.data.local.EventLocalDataSource
+import com.noweaj.android.bloodsugartracker.data.repository.ChartRepository
 import com.noweaj.android.bloodsugartracker.data.repository.EventRepository
 import com.noweaj.android.bloodsugartracker.util.factory.ChartViewModelFactory
 import com.noweaj.android.bloodsugartracker.util.factory.EventAddTimeEventViewModelFactory
 import com.noweaj.android.bloodsugartracker.util.factory.EventAddValueNoteViewModelFactory
 
 object InjectionUtil {
-    fun provideRepository(dao: EventDao): EventRepository{
+    fun provideEventRepository(dao: EventDao): EventRepository{
         return EventRepository(
             // remoteDataSource,
             localDataSource = EventLocalDataSource(dao)
         )
     }
     
+    fun provideChartRepository(dao: ChartDao): ChartRepository{
+        return ChartRepository(
+            localDataSource = ChartLocalDataSource(dao)
+        )
+    }
+    
     fun provideChartViewModelFactory(
+        chartRepository: ChartRepository,
         eventRepository: EventRepository
     ): ChartViewModelFactory {
         return ChartViewModelFactory(
+            chartRepository = chartRepository,
             eventRepository = eventRepository
         )
     }

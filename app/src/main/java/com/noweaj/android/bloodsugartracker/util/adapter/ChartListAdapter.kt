@@ -4,11 +4,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
+import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
 import com.noweaj.android.bloodsugartracker.databinding.ItemChartBinding
+import com.noweaj.android.bloodsugartracker.util.chart.ChartData
 
 class ChartListAdapter(
-
+    
 ): RecyclerView.Adapter<ChartListAdapter.ChartListViewHolder>() {
+    
+    private var eventEntities: List<EventEntity> = emptyList()
+    
+    fun setData(
+        chartData: ChartData
+    ){
+        notifyDataSetChanged()
+    }
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChartListViewHolder {
         TODO("Not yet implemented")
@@ -23,7 +34,7 @@ class ChartListAdapter(
     }
 
     class ChartListViewHolder(
-            private val binding: ItemChartBinding
+        private val binding: ItemChartBinding
     ): RecyclerView.ViewHolder(binding.root){
         fun bind(){
             

@@ -1,52 +1,50 @@
 package com.noweaj.android.bloodsugartracker.ui
 
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.github.mikephil.charting.charts.CombinedChart
-import com.github.mikephil.charting.components.LimitLine
-import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.*
-import com.noweaj.android.bloodsugartracker.R
 import com.noweaj.android.bloodsugartracker.data.local.AppDatabase
 import com.noweaj.android.bloodsugartracker.databinding.FragmentChartBinding
-import com.noweaj.android.bloodsugartracker.util.chart.DayAxisValueFormatter
 import com.noweaj.android.bloodsugartracker.util.InjectionUtil
+import com.noweaj.android.bloodsugartracker.util.adapter.ChartListAdapter
+import com.noweaj.android.bloodsugartracker.util.data.Resource
 import com.noweaj.android.bloodsugartracker.viewmodel.ChartViewModel
 
 class ChartFragment : Fragment() {
-    
     private val TAG = ChartFragment::class.java.simpleName
 
     private val viewModel: ChartViewModel by viewModels { 
         InjectionUtil.provideChartViewModelFactory(
-            InjectionUtil.provideRepository(AppDatabase.getInstance(requireContext()).eventDao())
+            InjectionUtil.provideChartRepository(AppDatabase.getInstance(requireContext()).chartDao()),
+            InjectionUtil.provideEventRepository(AppDatabase.getInstance(requireContext()).eventDao())
         )
     }
+    
+    private lateinit var binding: FragmentChartBinding
+    private val rvAdapter = ChartListAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentChartBinding.inflate(inflater, container, false)
+        binding = FragmentChartBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         
-        setupChart(binding)
-        
-        setChart(binding.root)
+        setView()
+        observe()
 
         return binding.root
     }
     
-    private fun setupChart(binding: FragmentChartBinding){
+    private fun setView(){
         val linearLayoutManager = object: LinearLayoutManager(requireActivity().applicationContext){
             override fun checkLayoutParams(lp: RecyclerView.LayoutParams?): Boolean {
                 lp!!.height = height/3
@@ -55,10 +53,64 @@ class ChartFragment : Fragment() {
         }
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.rvChart.layoutManager = linearLayoutManager
-        
-        
+        binding.rvChart.adapter = rvAdapter
+    }
+    
+    private fun observe(){
+        // observe:
+        // 1 sample chart if no chart entity exist
+        binding.viewModel!!.chartEntityCount.observe(viewLifecycleOwner){
+            if(it < 1)
+                binding.viewModel!!.addSampleChart()
+        }
+        // 2 updateChart result
+        binding.viewModel!!.chartEntities.observe(viewLifecycleOwner){
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    Log.d(TAG, "chartEntities -> LOADING")
+                    // progressBar active
+                }
+                Resource.Status.SUCCESS -> {
+                    Log.d(TAG, "chartEntities -> SUCCESS")
+                    // progressBar inactive
+                    // getEventEntities based on chartEntities
+                    it.data?.let { eventList ->
+                        binding.viewModel!!.getEventEntities(eventList)
+                    }
+                }
+                Resource.Status.ERROR -> {
+                    // progressBar inactive
+                    Log.e(TAG, "chartEntities -> ERROR: ${it.message}")
+                }
+            }
+        }
+        binding.viewModel!!.chartData.observe(viewLifecycleOwner){
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    Log.d(TAG, "eventEntities -> LOADING")
+                    // progressBar active
+                }
+                Resource.Status.SUCCESS -> {
+                    Log.d(TAG, "eventEntities -> SUCCESS")
+                    // progressBar inactive
+                    // update recyclerview
+                    rvAdapter.setData(it.data!!)
+                }
+                Resource.Status.ERROR -> {
+                    // progressBar inactive
+                    Log.d(TAG, "eventEntities -> ERROR: ${it.message}")
+                }
+            }
+        }
+        // 3 pinned card
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.viewModel!!.updateChart()
+    }
+
+    /*
     private fun setChart(root: View){
         val chart: CombinedChart = root.findViewById(R.id.chart1)
         chart.setBackgroundColor(Color.WHITE)
@@ -159,4 +211,5 @@ class ChartFragment : Fragment() {
 
         return data
     }
+     */
 }

@@ -1,5 +1,6 @@
 package com.noweaj.android.bloodsugartracker.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,16 +20,19 @@ class ChartViewModel(
     
     var chartEntityCount: LiveData<Int>
         = chartRepository.entityCount
+    var sampleChartAdded: LiveData<Resource<Long>>
+        = chartRepository.insertSingleChart(null)
     var chartEntities: LiveData<Resource<List<ChartEntity>>>
         = chartRepository.getAllEntities()
     var chartData: LiveData<Resource<ChartData>>
         = eventRepository.getEntitiesByChartList(null)
 
     fun addSampleChart(){
+        Log.d(TAG, "addSampleChart")
         // add sample chart since no chart entity is available
         // basic 1 day chart
         val timeNow = Calendar.getInstance().timeInMillis
-        chartRepository.insertSingleChart(
+        val result = chartRepository.insertSingleChart(
             ChartEntity(
                 title = "Last 24 hours",
                 description = "Overview of past 24 hours",

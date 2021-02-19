@@ -13,7 +13,7 @@ class ChartRepository(
      */
     val entityCount = localDataSource.getEntityCount()
     
-    fun insertSingleChart(chartEntity: ChartEntity) = 
+    fun insertSingleChart(chartEntity: ChartEntity?) = 
         performLocalSingleInsertOperation(
             method = { localDataSource.insertEntity(chartEntity) }
         )

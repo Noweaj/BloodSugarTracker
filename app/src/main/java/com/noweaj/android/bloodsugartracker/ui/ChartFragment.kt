@@ -60,8 +60,12 @@ class ChartFragment : Fragment() {
         // observe:
         // 1 sample chart if no chart entity exist
         binding.viewModel!!.chartEntityCount.observe(viewLifecycleOwner){
+            Log.d(TAG, "chartEntityCount: $it")
             if(it < 1)
                 binding.viewModel!!.addSampleChart()
+        }
+        binding.viewModel!!.sampleChartAdded.observe(viewLifecycleOwner){
+            
         }
         // 2 updateChart result
         binding.viewModel!!.chartEntities.observe(viewLifecycleOwner){
@@ -95,6 +99,8 @@ class ChartFragment : Fragment() {
                     // progressBar inactive
                     // update recyclerview
                     rvAdapter.setData(it.data!!)
+                    Log.d(TAG, "chartData: ${it.data!!.chartEntities.get(0).title}")
+                    Log.d(TAG, "entityData: ${it.data!!.eventEntitiesPerChart.get(0).get(0)}")
                 }
                 Resource.Status.ERROR -> {
                     // progressBar inactive

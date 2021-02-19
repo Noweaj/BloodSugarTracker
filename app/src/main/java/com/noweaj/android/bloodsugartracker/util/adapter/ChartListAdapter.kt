@@ -13,30 +13,47 @@ class ChartListAdapter(
     
 ): RecyclerView.Adapter<ChartListAdapter.ChartListViewHolder>() {
     
-    private var eventEntities: List<EventEntity> = emptyList()
+    private var chartData: ChartData? = null
     
     fun setData(
         chartData: ChartData
     ){
+        this.chartData = chartData
         notifyDataSetChanged()
     }
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChartListViewHolder {
-        TODO("Not yet implemented")
+        val binding: ItemChartBinding = ItemChartBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ChartListViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ChartListViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        chartData?.let {
+            holder.bind(
+                it.chartEntities[position],
+                it.eventEntitiesPerChart[position]
+            )
+        }
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        chartData?.let { 
+            return it.chartEntities.size
+        }
+        return 0
     }
 
     class ChartListViewHolder(
         private val binding: ItemChartBinding
     ): RecyclerView.ViewHolder(binding.root){
-        fun bind(){
+        fun bind(
+            chartEntity: ChartEntity,
+            eventEntities: List<EventEntity>
+        ){
             
         }
     }

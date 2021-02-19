@@ -12,8 +12,13 @@ class ChartLocalDataSource(
 ) {
     fun getEntityCount(): LiveData<Int> = dao.getDataCount()
     
-    suspend fun insertEntity(chartEntity: ChartEntity): Resource<Long> {
+    suspend fun insertEntity(chartEntity: ChartEntity?): Resource<Long> {
         var id: Long = 0
+        chartEntity?: return Resource(
+            Resource.Status.ERROR,
+            -1,
+            "null chartEntity"
+        )
         val insertJob = CoroutineScope(Dispatchers.IO).launch { 
             id = dao.insertEntity(chartEntity)
         }

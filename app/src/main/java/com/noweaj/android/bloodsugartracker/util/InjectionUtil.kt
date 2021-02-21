@@ -10,6 +10,7 @@ import com.noweaj.android.bloodsugartracker.data.repository.EventRepository
 import com.noweaj.android.bloodsugartracker.util.factory.ChartViewModelFactory
 import com.noweaj.android.bloodsugartracker.util.factory.EventAddTimeEventViewModelFactory
 import com.noweaj.android.bloodsugartracker.util.factory.EventAddValueNoteViewModelFactory
+import com.noweaj.android.bloodsugartracker.util.factory.SplashActivityViewModelFactory
 
 object InjectionUtil {
     fun provideEventRepository(dao: EventDao): EventRepository{
@@ -22,6 +23,14 @@ object InjectionUtil {
     fun provideChartRepository(dao: ChartDao): ChartRepository{
         return ChartRepository(
             localDataSource = ChartLocalDataSource(dao)
+        )
+    }
+    
+    fun provideSplashActivityViewModelFactory(
+        chartRepository: ChartRepository
+    ): SplashActivityViewModelFactory {
+        return SplashActivityViewModelFactory(
+            chartRepository
         )
     }
     

@@ -11,9 +11,12 @@ class ChartRepository(
     /**
      * local
      */
-    val entityCount = localDataSource.getEntityCount()
+    fun insertSampleChartIfNeeded(chartEntity: ChartEntity) = 
+        performLocalSingleInsertOperation(
+            method = { localDataSource.insertSampleEntity(chartEntity) }
+        )
     
-    fun insertSingleChart(chartEntity: ChartEntity?) = 
+    fun insertSingleChart(chartEntity: ChartEntity) = 
         performLocalSingleInsertOperation(
             method = { localDataSource.insertEntity(chartEntity) }
         )
@@ -32,4 +35,6 @@ class ChartRepository(
         performLocalGetChartOperation(
             method = { localDataSource.getAllEntities() }
         )
+    
+    
 }

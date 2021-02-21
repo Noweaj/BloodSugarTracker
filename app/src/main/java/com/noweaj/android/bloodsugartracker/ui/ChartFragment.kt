@@ -40,6 +40,7 @@ class ChartFragment : Fragment() {
         
         setView()
         observe()
+//        binding.viewModel!!.checkChartEntity()
 
         return binding.root
     }
@@ -59,14 +60,52 @@ class ChartFragment : Fragment() {
     private fun observe(){
         // observe:
         // 1 sample chart if no chart entity exist
-        binding.viewModel!!.chartEntityCount.observe(viewLifecycleOwner){
-            Log.d(TAG, "chartEntityCount: $it")
-            if(it < 1)
-                binding.viewModel!!.addSampleChart()
-        }
         binding.viewModel!!.sampleChartAdded.observe(viewLifecycleOwner){
-            
+            Log.d(TAG, "sampleChartAdded")
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    Log.d(TAG, "sampleChartAdded -> LOADING")
+                    // progressBar active
+                }
+                Resource.Status.SUCCESS -> {
+                    Log.d(TAG, "sampleChartAdded -> SUCCESS")
+                    // progressBar inactive
+                    // updateChart()
+                    binding.viewModel!!.updateChart()
+                }
+                Resource.Status.ERROR -> {
+                    // progressBar inactive
+                    Log.e(TAG, "sampleChartAdded -> ERROR: ${it.message}")
+                }
+            }
         }
+//        binding.viewModel!!.chartEntityCount.observe(viewLifecycleOwner){
+//            Log.d(TAG, "chartEntityCount: $it")
+//            if(it < 1){
+//                binding.viewModel!!.sampleChartAdded.observe(viewLifecycleOwner){
+//                    Log.d(TAG, "sampleChartAdded: $it")
+//                }
+//            }
+//        }
+//        binding.viewModel!!.sampleChartAdded.observe(viewLifecycleOwner){
+//            Log.d(TAG, "sampleChartAdded observe")
+//            when(it.status){
+//                Resource.Status.LOADING -> {
+//                    Log.d(TAG, "sampleChartAdded -> LOADING")
+//                    // progressBar active
+//                }
+//                Resource.Status.SUCCESS -> {
+//                    Log.d(TAG, "sampleChartAdded -> SUCCESS")
+//                    // progressBar inactive
+//                    // updateChart()
+//                    binding.viewModel!!.updateChart()
+//                }
+//                Resource.Status.ERROR -> {
+//                    // progressBar inactive
+//                    Log.e(TAG, "sampleChartAdded -> ERROR: ${it.message}")
+//                }
+//            }
+//        }
         // 2 updateChart result
         binding.viewModel!!.chartEntities.observe(viewLifecycleOwner){
             when(it.status){
@@ -80,6 +119,7 @@ class ChartFragment : Fragment() {
                     // getEventEntities based on chartEntities
                     it.data?.let { eventList ->
                         binding.viewModel!!.getEventEntities(eventList)
+                        observeLazy()
                     }
                 }
                 Resource.Status.ERROR -> {
@@ -88,27 +128,31 @@ class ChartFragment : Fragment() {
                 }
             }
         }
+        
+        // 3 pinned card
+    }
+    
+    private fun observeLazy(){
         binding.viewModel!!.chartData.observe(viewLifecycleOwner){
             when(it.status){
                 Resource.Status.LOADING -> {
-                    Log.d(TAG, "eventEntities -> LOADING")
+                    Log.d(TAG, "chartData -> LOADING")
                     // progressBar active
                 }
                 Resource.Status.SUCCESS -> {
-                    Log.d(TAG, "eventEntities -> SUCCESS")
+                    Log.d(TAG, "chartData -> SUCCESS")
                     // progressBar inactive
                     // update recyclerview
                     rvAdapter.setData(it.data!!)
-                    Log.d(TAG, "chartData: ${it.data!!.chartEntities.get(0).title}")
-                    Log.d(TAG, "entityData: ${it.data!!.eventEntitiesPerChart.get(0).get(0)}")
+                    Log.d(TAG, "chartData: ${it.data.chartEntities[0].title}")
+                    Log.d(TAG, "entityData: ${it.data.eventEntitiesPerChart.get(0).size}")
                 }
                 Resource.Status.ERROR -> {
                     // progressBar inactive
-                    Log.d(TAG, "eventEntities -> ERROR: ${it.message}")
+                    Log.e(TAG, "chartData -> ERROR: ${it.message}")
                 }
             }
         }
-        // 3 pinned card
     }
 
     override fun onResume() {

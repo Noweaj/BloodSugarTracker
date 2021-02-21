@@ -7,7 +7,7 @@ import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 @Dao
 interface ChartDao {
     @Query("SELECT COUNT(title) FROM chartENTITY")
-    fun getDataCount(): LiveData<Int>
+    fun getDataCount(): Int
     
     @Query("SELECT * FROM chartENTITY")
     fun getAllEntities(): List<ChartEntity>

@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
 
-@Database(entities = [ChartEntity::class, EventEntity::class], version = 2)
+@Database(entities = [ChartEntity::class, EventEntity::class], version = 1)
 abstract class AppDatabase: RoomDatabase(){
     abstract fun eventDao(): EventDao
     abstract fun chartDao(): ChartDao

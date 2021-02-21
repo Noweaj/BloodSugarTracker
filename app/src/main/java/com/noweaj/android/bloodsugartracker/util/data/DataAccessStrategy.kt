@@ -5,7 +5,9 @@ import androidx.lifecycle.liveData
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
 import com.noweaj.android.bloodsugartracker.util.chart.ChartData
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 
 fun performLocalSingleInsertOperation(
     method: suspend () -> Resource<Long>

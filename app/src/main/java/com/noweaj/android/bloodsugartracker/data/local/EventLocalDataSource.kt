@@ -1,5 +1,6 @@
 package com.noweaj.android.bloodsugartracker.data.local
 
+import android.util.Log
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
 import com.noweaj.android.bloodsugartracker.util.chart.ChartData
@@ -71,11 +72,21 @@ class EventLocalDataSource(
         )
         val eventEntities = mutableListOf<List<EventEntity>>()
         for(i in chartEntities.indices){
-            val getJob = CoroutineScope(Dispatchers.IO).launch { 
-                eventEntities.add(dao.getEntitiesBetweenDates(
-                    chartEntities.get(i).from,
-                    chartEntities.get(i).to
-                ))
+            val getJob = CoroutineScope(Dispatchers.IO).launch {
+                Log.d("eventLocalDataSource", "from: ${chartEntities[i].from} to: ${chartEntities[i].to}")
+                val myEntity = dao.getEntitiesBetweenDates(
+                    chartEntities[i].from,
+                    chartEntities[i].to
+                )
+                Log.d("eventLocalDataSource", "${myEntity.size}")
+                for(j in myEntity.indices){
+                    Log.d("eventLocalDataSource", "${myEntity[j].timestamp}")
+                }
+                eventEntities.add(myEntity)
+//                eventEntities.add(dao.getEntitiesBetweenDates(
+//                    chartEntities.get(i).from,
+//                    chartEntities.get(i).to
+//                ) )
             }
             getJob.join()
         }

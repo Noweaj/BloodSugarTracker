@@ -1,5 +1,6 @@
 package com.noweaj.android.bloodsugartracker.data.local
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.util.data.Resource
@@ -10,15 +11,43 @@ import kotlinx.coroutines.launch
 class ChartLocalDataSource(
     private val dao: ChartDao
 ) {
-    fun getEntityCount(): LiveData<Int> = dao.getDataCount()
-    
-    suspend fun insertEntity(chartEntity: ChartEntity?): Resource<Long> {
+    suspend fun insertSampleEntity(chartEntity: ChartEntity): Resource<Long> {
         var id: Long = 0
-        chartEntity?: return Resource(
-            Resource.Status.ERROR,
-            -1,
-            "null chartEntity"
-        )
+        val insertJob = CoroutineScope(Dispatchers.IO).launch { 
+            val count = dao.getDataCount()
+            id = if(count < 1){
+                // add sample chart
+                dao.insertEntity(chartEntity)
+            } else {
+                -1
+            }
+        }
+        insertJob.join()
+        return if(id < 0){
+            Resource(
+                Resource.Status.ERROR,
+                id,
+                "chart data is not empty"
+            )
+        } else {
+            Resource(
+                Resource.Status.SUCCESS,
+                id,
+                null
+            )
+        }
+    }
+    
+    suspend fun insertEntity(chartEntity: ChartEntity): Resource<Long> {
+        Log.d("ChartLocalDataSource", "insertEntity")
+        var id: Long = 0
+//        chartEntity?:let {
+//            return Resource(
+//                    Resource.Status.ERROR,
+//                    -1,
+//                    "null chartEntity"
+//            )
+//        }
         val insertJob = CoroutineScope(Dispatchers.IO).launch { 
             id = dao.insertEntity(chartEntity)
         }

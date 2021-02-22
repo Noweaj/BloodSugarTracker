@@ -6,4 +6,8 @@ import com.noweaj.android.bloodsugartracker.data.repository.ChartRepository
 class SplashActivityViewModel(
     private val chartRepository: ChartRepository
 ): ViewModel() {
+    
+    fun updateChartSpec(){
+        
+    }
 }

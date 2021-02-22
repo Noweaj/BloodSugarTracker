@@ -133,7 +133,7 @@ class ChartFragment : Fragment() {
     }
     
     private fun observeLazy(){
-        binding.viewModel!!.chartData.observe(viewLifecycleOwner){
+        binding.viewModel!!.chartSpec.observe(viewLifecycleOwner){
             when(it.status){
                 Resource.Status.LOADING -> {
                     Log.d(TAG, "chartData -> LOADING")

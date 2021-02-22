@@ -2,12 +2,11 @@ package com.noweaj.android.bloodsugartracker.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.repository.ChartRepository
 import com.noweaj.android.bloodsugartracker.data.repository.EventRepository
-import com.noweaj.android.bloodsugartracker.util.chart.ChartData
+import com.noweaj.android.bloodsugartracker.util.chart.ChartSpec
 import com.noweaj.android.bloodsugartracker.util.data.Resource
 import com.noweaj.android.bloodsugartracker.util.oneDayInTimeMillis
 import java.util.*
@@ -38,7 +37,7 @@ class ChartViewModel(
 //        get() = _sampleChartAdded
     var chartEntities: LiveData<Resource<List<ChartEntity>>>
         = chartRepository.getAllEntities()
-    var chartData: LiveData<Resource<ChartData>>
+    var chartSpec: LiveData<Resource<ChartSpec>>
         = eventRepository.getEntitiesByChartList(null)
     
 //    private val _chartData = MutableLiveData<Resource<ChartData>>()
@@ -73,7 +72,7 @@ class ChartViewModel(
     
     fun getEventEntities(chartEntities: List<ChartEntity>){
         Log.d(TAG, "getEventEntities")
-        chartData = eventRepository.getEntitiesByChartList(chartEntities)
+        chartSpec = eventRepository.getEntitiesByChartList(chartEntities)
 //        _chartData.postValue(eventRepository.getEntitiesByChartList(chartEntities).value)
     }
 }

@@ -1,15 +1,9 @@
 package com.noweaj.android.bloodsugartracker.util.chart
 
-import com.noweaj.android.bloodsugartracker.data.local.ChartDao
-import com.noweaj.android.bloodsugartracker.data.repository.ChartRepository
+import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
+import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
 
-object ChartSpec {
-    
-    val chartSpec = mutableListOf<ChartData>()
-    
-    fun initChartSpec(repository: ChartRepository){
-        // get chart list
-        val charList = repository.getAllEntities()
-        
-    }
-}
+data class ChartSpec(
+    val chartEntities: List<ChartEntity>,
+    val eventEntitiesPerChart: List<List<EventEntity>>
+)

@@ -3,7 +3,7 @@ package com.noweaj.android.bloodsugartracker.data.local
 import android.util.Log
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
-import com.noweaj.android.bloodsugartracker.util.chart.ChartData
+import com.noweaj.android.bloodsugartracker.util.chart.ChartSpec
 import com.noweaj.android.bloodsugartracker.util.data.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -64,7 +64,7 @@ class EventLocalDataSource(
         )
     }
     
-    suspend fun getEntitiesBetweenDatesByChart(chartEntities: List<ChartEntity>?): Resource<ChartData> {
+    suspend fun getEntitiesBetweenDatesByChart(chartEntities: List<ChartEntity>?): Resource<ChartSpec> {
         chartEntities?: return Resource(
             Resource.Status.ERROR,
             null,
@@ -92,7 +92,7 @@ class EventLocalDataSource(
         }
         return Resource(
             Resource.Status.SUCCESS,
-            ChartData(
+            ChartSpec(
                 chartEntities = chartEntities,
                 eventEntitiesPerChart = eventEntities
             ),

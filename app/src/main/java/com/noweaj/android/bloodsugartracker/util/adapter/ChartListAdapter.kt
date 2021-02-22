@@ -1,24 +1,23 @@
 package com.noweaj.android.bloodsugartracker.util.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
 import com.noweaj.android.bloodsugartracker.databinding.ItemChartBinding
-import com.noweaj.android.bloodsugartracker.util.chart.ChartData
+import com.noweaj.android.bloodsugartracker.util.chart.ChartSpec
 
 class ChartListAdapter(
     
 ): RecyclerView.Adapter<ChartListAdapter.ChartListViewHolder>() {
     
-    private var chartData: ChartData? = null
+    private var chartSpec: ChartSpec? = null
     
     fun setData(
-        chartData: ChartData
+        chartSpec: ChartSpec
     ){
-        this.chartData = chartData
+        this.chartSpec = chartSpec
         notifyDataSetChanged()
     }
     
@@ -32,7 +31,7 @@ class ChartListAdapter(
     }
 
     override fun onBindViewHolder(holder: ChartListViewHolder, position: Int) {
-        chartData?.let {
+        chartSpec?.let {
             holder.bind(
                 it.chartEntities[position],
                 it.eventEntitiesPerChart[position]
@@ -41,7 +40,7 @@ class ChartListAdapter(
     }
 
     override fun getItemCount(): Int {
-        chartData?.let { 
+        chartSpec?.let { 
             return it.chartEntities.size
         }
         return 0

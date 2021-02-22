@@ -1,5 +1,6 @@
 package com.noweaj.android.bloodsugartracker.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -31,9 +32,13 @@ class SplashActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+        binding.viewModel = viewModel
+        
+        binding.viewModel.updateChartSpec()
     }
     
     private fun navigateToMain(){
-        
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.liveData
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
 import com.noweaj.android.bloodsugartracker.util.chart.ChartSpec
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 fun performLocalSingleInsertOperation(
@@ -59,14 +60,18 @@ fun performLocalGetEventOperation(
         }
     }
 
-fun performLocalGetChartOperation(
+fun performLocalGetAllChartOperation(
     method: suspend() -> Resource<List<ChartEntity>>
 ): LiveData<Resource<List<ChartEntity>>> = 
     liveData(Dispatchers.IO) { 
         emit(Resource.loading())
         val getResult = method.invoke()
         if(getResult.status == Resource.Status.SUCCESS){
-            emit(Resource.success(getResult.data!!))
+            val resultData = getResult.data!!
+            if(resultData.isEmpty())
+                emit(Resource.error("empty list", null))
+            else 
+                emit(Resource.success(getResult.data!!))
         } else {
             emit(Resource.error(getResult.message!!, null))
         }

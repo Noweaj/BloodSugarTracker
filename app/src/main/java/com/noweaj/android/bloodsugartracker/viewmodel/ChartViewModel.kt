@@ -36,7 +36,7 @@ class ChartViewModel(
 //    val sampleChartAdded: LiveData<Resource<Long>>
 //        get() = _sampleChartAdded
     var chartEntities: LiveData<Resource<List<ChartEntity>>>
-        = chartRepository.getAllEntities()
+        = chartRepository.getAllChart()
     var chartSpec: LiveData<Resource<ChartSpec>>
         = eventRepository.getEntitiesByChartList(null)
     
@@ -67,7 +67,7 @@ class ChartViewModel(
     
     fun updateChart(){
         Log.d(TAG, "updateChart")
-        chartEntities = chartRepository.getAllEntities()
+        chartEntities = chartRepository.getAllChart()
     }
     
     fun getEventEntities(chartEntities: List<ChartEntity>){

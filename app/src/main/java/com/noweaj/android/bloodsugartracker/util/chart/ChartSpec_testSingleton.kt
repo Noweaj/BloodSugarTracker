@@ -6,10 +6,6 @@ class ChartSpec_testSingleton(
     private val chartList: List<ChartSpec>
 ) {
     
-    constructor(){
-        
-    }
-    
     init {
         
     }

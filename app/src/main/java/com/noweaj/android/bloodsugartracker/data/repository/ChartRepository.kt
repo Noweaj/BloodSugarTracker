@@ -31,8 +31,8 @@ class ChartRepository(
             method = { localDataSource.deleteEntity(chartEntity) }
         )
     
-    fun getAllEntities() = 
-        performLocalGetChartOperation(
+    fun getAllChart() = 
+        performLocalGetAllChartOperation(
             method = { localDataSource.getAllEntities() }
         )
     

@@ -22,7 +22,7 @@ object InjectionUtil {
     
     fun provideChartRepository(dao: ChartDao): ChartRepository{
         return ChartRepository(
-            localDataSource = ChartLocalDataSource(dao)
+            localDataSource = dao
         )
     }
     

@@ -2,11 +2,31 @@ package com.noweaj.android.bloodsugartracker.util.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
+import com.noweaj.android.bloodsugartracker.util.chart.ChartParams
 import com.noweaj.android.bloodsugartracker.util.chart.ChartSpec
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+
+fun performInitChartOperation(
+    databaseQuery: () -> List<ChartEntity>,
+    insertSampleChart: suspend (ChartEntity) -> Unit
+): LiveData<Resource<List<ChartEntity>>> =
+    liveData(Dispatchers.IO) { 
+        emit(Resource.loading())
+        val source = databaseQuery.invoke()
+        if(source.isEmpty()){
+            val insertResult = insertSampleChart.invoke(
+                ChartParams.
+            )
+            
+        } else {
+            emit(Resource.error("chart list is not empty", null))
+        }
+    }
+
 
 fun performLocalSingleInsertOperation(
     method: suspend () -> Resource<Long>

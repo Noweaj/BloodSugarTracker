@@ -13,7 +13,7 @@ class SplashActivityViewModel(
 ): ViewModel() {
     
     val chartEntities: LiveData<Resource<List<ChartEntity>>> = chartRepository.getAllChart()
-    var addSampleChart: LiveData<Resource<Long>> = 
+//    var addSampleChart: LiveData<Resource<Long>> = 
     
 //    private val _sampleChartAdded = MutableLiveData<Resource<Long>>()
 //    val sampleChartAdded: LiveData<Resource<Long>>

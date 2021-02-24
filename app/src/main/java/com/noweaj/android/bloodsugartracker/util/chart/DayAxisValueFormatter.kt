@@ -10,16 +10,16 @@ class DayAxisValueFormatter(val chart: CombinedChart): ValueFormatter() {
 //        return super.getAxisLabel(value, axis)
 
         val days = value.toInt()
-        val yearInt = DateUtil.determineYear(days)
-        val monthInt = DateUtil.determineMonth(days)
+        val yearInt = ChartDateUtil.determineYear(days)
+        val monthInt = ChartDateUtil.determineMonth(days)
 
-        val monthName = DateUtil.months[monthInt % DateUtil.months.size]
+        val monthName = ChartDateUtil.months[monthInt % ChartDateUtil.months.size]
         val yearName = yearInt.toString()
 
         if(chart.visibleXRange > (30 * 6))
             return "$monthName $yearName"
         else {
-            val dayOfMonth = DateUtil.determineDayOfMonth(days, monthInt + 12 * (yearInt - 2016))
+            val dayOfMonth = ChartDateUtil.determineDayOfMonth(days, monthInt + 12 * (yearInt - 2016))
 
             var appendix = "th"
             when(dayOfMonth){

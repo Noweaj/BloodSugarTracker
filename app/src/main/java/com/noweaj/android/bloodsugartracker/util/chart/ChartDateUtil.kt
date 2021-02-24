@@ -1,6 +1,6 @@
 package com.noweaj.android.bloodsugartracker.util.chart
 
-class DateUtil {
+class ChartDateUtil {
 
     companion object{
         val months = arrayOf(

@@ -9,21 +9,8 @@ import com.noweaj.android.bloodsugartracker.util.chart.ChartParams
 import com.noweaj.android.bloodsugartracker.util.data.Resource
 
 class SplashActivityViewModel(
-    private val chartRepository: ChartRepository
+    chartRepository: ChartRepository
 ): ViewModel() {
     
-    val initChart: LiveData<Resource<List<ChartEntity>>> = chartRepository.initChartInformation()
-//    var addSampleChart: LiveData<Resource<Long>> = 
-    
-//    private val _sampleChartAdded = MutableLiveData<Resource<Long>>()
-//    val sampleChartAdded: LiveData<Resource<Long>>
-//        get() = _sampleChartAdded
-    
-    fun setChartParams(chartEntities: List<ChartEntity>){
-        ChartParams.updateChartParams(chartEntities)
-    }
-    
-    fun addSampleChart(){
-        
-    }
+    val initChart = chartRepository.initChartInformation()
 }

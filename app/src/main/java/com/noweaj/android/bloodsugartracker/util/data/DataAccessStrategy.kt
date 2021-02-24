@@ -2,43 +2,41 @@ package com.noweaj.android.bloodsugartracker.util.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import androidx.lifecycle.map
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
+import com.noweaj.android.bloodsugartracker.util.chart.CalendarUtil
 import com.noweaj.android.bloodsugartracker.util.chart.ChartParams
 import com.noweaj.android.bloodsugartracker.util.chart.ChartSpec
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import java.util.*
 
 fun performInitChartOperation(
     databaseQuery: () -> List<ChartEntity>,
-    insertSampleChart: suspend (ChartEntity) -> Resource<Long>
-): LiveData<Resource<Long>> =
+    insertSampleChart: suspend (ChartEntity) -> Unit
+): LiveData<Resource<Unit>> =
     liveData(Dispatchers.IO) { 
         emit(Resource.loading())
         val source = databaseQuery.invoke()
         if(source.isEmpty()){
             // add chart into db and update ChartParams
-            val insertResult = insertSampleChart.invoke(
+            insertSampleChart.invoke(
                 ChartParams.addChart(
                     ChartEntity(
                         id = 0,
                         title = "Last 24 hours",
                         description = "Overview of past 24 hours",
-                        from = ChartParams.getStartOfDay(),
-                        to = ChartParams.getEndOfDay(),
+                        from = CalendarUtil.getStartOfDay(),
+                        to = CalendarUtil.getEndOfDay(),
                         option = ""
                     )
                 )
             )
             // emit result as success
-            emit(Resource.success(insertResult.data))
+            emit(Resource.success(null))
         } else {
             // update ChartParams
-            ChartParams.updateChartParams(source)
+            ChartParams.setChartParams(source)
             // emit result as error
-            emit(Resource.error("chart list is not empty", source))
+            emit(Resource.error("chart list is not empty", null))
         }
     }
 

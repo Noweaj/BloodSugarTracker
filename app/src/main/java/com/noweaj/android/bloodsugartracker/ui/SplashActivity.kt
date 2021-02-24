@@ -47,11 +47,13 @@ class SplashActivity: AppCompatActivity() {
                 }
                 Resource.Status.SUCCESS -> {
                     Log.d(TAG, "initChart -> SUCCESS: ${it.data}")
-                    
+                    // proceed to MainActivity
+                    navigateToMain()
                 }
                 Resource.Status.ERROR -> {
                     Log.d(TAG, "initChart -> ERROR: ${it.message}")
-                    
+                    // proceed to MainActivity
+                    navigateToMain()
                 }
             }
         }

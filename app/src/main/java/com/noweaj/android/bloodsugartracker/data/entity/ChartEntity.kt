@@ -5,7 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "chartENTITY")
 data class ChartEntity(
-        @PrimaryKey var title: String,
+        @PrimaryKey(autoGenerate = true)
+        val id: Long,   
+        var title: String,
         var description: String,
         var from: Long,
         var to: Long,

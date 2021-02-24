@@ -40,21 +40,36 @@ class SplashActivity: AppCompatActivity() {
     }
     
     private fun observe(){
-        binding.viewModel!!.chartEntities.observe(this){
+        binding.viewModel!!.initChart.observe(this){
             when(it.status){
                 Resource.Status.LOADING -> {
-                    Log.d(TAG, "chartEntities -> LOADING")
+                    Log.d(TAG, "initChart -> LOADING: ${it.message}")
                 }
                 Resource.Status.SUCCESS -> {
-                    Log.d(TAG, "chartEntities -> SUCCESS: ${it.data}")
-                    binding.viewModel!!.setChartParams(it.data!!)
+                    Log.d(TAG, "initChart -> SUCCESS: ${it.data}")
+                    
                 }
                 Resource.Status.ERROR -> {
-                    Log.e(TAG, "chartEntities -> ERROR: ${it.message}")
-                    binding.viewModel!!.addSampleChart()
+                    Log.d(TAG, "initChart -> ERROR: ${it.message}")
+                    
                 }
             }
         }
+//        binding.viewModel!!.chartEntities.observe(this){
+//            when(it.status){
+//                Resource.Status.LOADING -> {
+//                    Log.d(TAG, "chartEntities -> LOADING")
+//                }
+//                Resource.Status.SUCCESS -> {
+//                    Log.d(TAG, "chartEntities -> SUCCESS: ${it.data}")
+//                    binding.viewModel!!.setChartParams(it.data!!)
+//                }
+//                Resource.Status.ERROR -> {
+//                    Log.e(TAG, "chartEntities -> ERROR: ${it.message}")
+//                    binding.viewModel!!.addSampleChart()
+//                }
+//            }
+//        }
     }
     
     private fun navigateToMain(){

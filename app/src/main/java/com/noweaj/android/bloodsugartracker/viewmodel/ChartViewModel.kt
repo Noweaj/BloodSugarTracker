@@ -22,16 +22,16 @@ class ChartViewModel(
      * 날짜를 앱 켤 떄 마다 room에 저장된 range를 기반으로
      * 상수로 만들어 주는 함수가 필요함.
      */
-    var sampleChartAdded: LiveData<Resource<Long>>
-        = chartRepository.insertSampleChartIfNeeded(
-            ChartEntity(
-                title = "Last 24 hours",
-                description = "Overview of past 24 hours",
-                from = (Calendar.getInstance().clone() as Calendar).timeInMillis - oneDayInTimeMillis,
-                to = Calendar.getInstance().timeInMillis,
-                option = ""
-            )
-        )
+//    var sampleChartAdded: LiveData<Resource<Long>>
+//        = chartRepository.insertSampleChartIfNeeded(
+//            ChartEntity(
+//                title = "Last 24 hours",
+//                description = "Overview of past 24 hours",
+//                from = (Calendar.getInstance().clone() as Calendar).timeInMillis - oneDayInTimeMillis,
+//                to = Calendar.getInstance().timeInMillis,
+//                option = ""
+//            )
+//        )
 //    private val _sampleChartAdded = MutableLiveData<Resource<Long>>()
 //    val sampleChartAdded: LiveData<Resource<Long>>
 //        get() = _sampleChartAdded

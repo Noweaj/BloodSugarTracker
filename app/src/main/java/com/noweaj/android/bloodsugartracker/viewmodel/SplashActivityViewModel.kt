@@ -11,6 +11,5 @@ import com.noweaj.android.bloodsugartracker.util.data.Resource
 class SplashActivityViewModel(
     chartRepository: ChartRepository
 ): ViewModel() {
-    
     val initChart = chartRepository.initChartInformation()
 }

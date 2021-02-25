@@ -9,7 +9,6 @@ data class ChartEntity(
         val id: Long,   
         var title: String,
         var description: String,
-        var from: Long,
-        var to: Long,
+        var timeframe: Int, // hours
         var option: String
 )

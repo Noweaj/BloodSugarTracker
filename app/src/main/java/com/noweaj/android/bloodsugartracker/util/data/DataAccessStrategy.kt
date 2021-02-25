@@ -4,15 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
-import com.noweaj.android.bloodsugartracker.util.chart.CalendarUtil
-import com.noweaj.android.bloodsugartracker.util.chart.ChartParams
-import com.noweaj.android.bloodsugartracker.util.chart.ChartSpec
+import com.noweaj.android.bloodsugartracker.util.chart.*
 import kotlinx.coroutines.Dispatchers
 
 fun performInitChartOperation(
     databaseQuery: () -> List<ChartEntity>,
     insertSampleChart: suspend (ChartEntity) -> Unit
-): LiveData<Resource<Unit>> =
+): LiveData<Resource<Nothing>> =
     liveData(Dispatchers.IO) { 
         emit(Resource.loading())
         val source = databaseQuery.invoke()
@@ -24,9 +22,17 @@ fun performInitChartOperation(
                         id = 0,
                         title = "Last 24 hours",
                         description = "Overview of past 24 hours",
-                        from = CalendarUtil.getStartOfDay(),
-                        to = CalendarUtil.getEndOfDay(),
-                        option = ""
+                        timeframe = 24,
+                        option = JsonHelper.JsonObjectHelper()
+                            .putOption("isFixedTimeframe", false)
+                            .putOption("eventFilter", JsonHelper.JsonArrayHelper()
+                                .addArray(arrayOf(
+                                    JsonHelper.JsonObjectHelper()
+                                        .putOption("event", "all")
+                                        .putOption("minValue", "70")
+                                        .getObject()
+                                )).getArray())
+                            .getObject().toString()
                     )
                 )
             )

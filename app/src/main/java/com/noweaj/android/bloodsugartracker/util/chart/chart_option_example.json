@@ -1,0 +1,12 @@
+{
+  "isFixedTimeframe": false,
+  "fixedTimeFrame_from": 0,
+  "fixedTimeFrame_to": 0,
+  "eventFilter": [
+    {
+      "event": "all",
+      "minValue": 70,
+      "maxValue": 130
+    }
+  ]
+}

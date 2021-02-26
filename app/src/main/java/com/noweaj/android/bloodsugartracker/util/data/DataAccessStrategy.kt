@@ -25,13 +25,9 @@ fun performInitChartOperation(
                         timeframe = 24,
                         option = JsonHelper.JsonObjectHelper()
                             .putOption("isFixedTimeframe", false)
-                            .putOption("eventFilter", JsonHelper.JsonArrayHelper()
-                                .addArray(arrayOf(
-                                    JsonHelper.JsonObjectHelper()
-                                        .putOption("event", "all")
-                                        .putOption("minValue", "70")
-                                        .getObject()
-                                )).getArray())
+                            .putOption("eventFilter", JsonHelper.JsonObjectHelper()
+                                .putOption("event", "all")
+                            )
                             .getObject().toString()
                     )
                 )

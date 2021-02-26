@@ -7,12 +7,23 @@ import com.noweaj.android.bloodsugartracker.data.local.EventDao
 import com.noweaj.android.bloodsugartracker.data.local.EventLocalDataSource
 import com.noweaj.android.bloodsugartracker.data.repository.ChartRepository
 import com.noweaj.android.bloodsugartracker.data.repository.EventRepository
+import com.noweaj.android.bloodsugartracker.data.repository.GlucoseRepository
 import com.noweaj.android.bloodsugartracker.util.factory.ChartViewModelFactory
 import com.noweaj.android.bloodsugartracker.util.factory.EventAddTimeEventViewModelFactory
 import com.noweaj.android.bloodsugartracker.util.factory.EventAddValueNoteViewModelFactory
 import com.noweaj.android.bloodsugartracker.util.factory.SplashActivityViewModelFactory
 
 object InjectionUtil {
+    fun provideGlucoseRepository(
+        chartDao: ChartDao,
+        eventDao: EventDao
+    ): GlucoseRepository {
+        return GlucoseRepository(
+            localChartDataSource = chartDao,
+            localEventDataSource = eventDao
+        )
+    }
+    
     fun provideEventRepository(dao: EventDao): EventRepository{
         return EventRepository(
             // remoteDataSource,
@@ -27,20 +38,18 @@ object InjectionUtil {
     }
     
     fun provideSplashActivityViewModelFactory(
-        chartRepository: ChartRepository
+        glucoseRepository: GlucoseRepository
     ): SplashActivityViewModelFactory {
         return SplashActivityViewModelFactory(
-            chartRepository
+            repository = glucoseRepository
         )
     }
     
     fun provideChartViewModelFactory(
-        chartRepository: ChartRepository,
-        eventRepository: EventRepository
+        glucoseRepository: GlucoseRepository
     ): ChartViewModelFactory {
         return ChartViewModelFactory(
-            chartRepository = chartRepository,
-            eventRepository = eventRepository
+            repository = glucoseRepository
         )
     }
 
@@ -53,10 +62,10 @@ object InjectionUtil {
     }
     
     fun provideEventAddValueNoteViewModelFactory(
-        eventRepository: EventRepository
+        glucoseRepository: GlucoseRepository
     ): EventAddValueNoteViewModelFactory {
         return EventAddValueNoteViewModelFactory(
-            eventRepository = eventRepository
+           repository = glucoseRepository
         )
     }
     

@@ -5,11 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.repository.ChartRepository
+import com.noweaj.android.bloodsugartracker.data.repository.GlucoseRepository
 import com.noweaj.android.bloodsugartracker.util.chart.ChartParams
 import com.noweaj.android.bloodsugartracker.util.data.Resource
 
 class SplashActivityViewModel(
-    chartRepository: ChartRepository
+    repository: GlucoseRepository
 ): ViewModel() {
-    val initChart = chartRepository.initChartInformation()
+    val initChart = repository.initChartInformation()
 }

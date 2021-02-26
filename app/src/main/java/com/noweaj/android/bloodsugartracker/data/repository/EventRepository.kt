@@ -28,8 +28,8 @@ class EventRepository(
         performLocalGetEventOperation(
             method = { localDataSource.getEntitiesBetweenDates(startDate, endDate) }
         )
-    fun getEntitiesByChartList(chartEntities: List<ChartEntity>?) =
-        performLocalGetEventByChartOperation(
-            method = { localDataSource.getEntitiesBetweenDatesByChart(chartEntities) }
-        )
+//    fun getEntitiesByChartList(chartEntities: List<ChartEntity>?) =
+//        performLocalGetEventByChartOperation(
+//            method = { localDataSource.getEntitiesBetweenDatesByChart(chartEntities) }
+//        )
 }

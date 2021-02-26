@@ -32,16 +32,16 @@ class ChartListAdapter(
 
     override fun onBindViewHolder(holder: ChartListViewHolder, position: Int) {
         chartSpec?.let {
-            holder.bind(
-                it.chartEntities[position],
-                it.eventEntitiesPerChart[position]
-            )
+//            holder.bind(
+//                it.chartEntities[position],
+//                it.eventEntitiesPerChart[position]
+//            )
         }
     }
 
     override fun getItemCount(): Int {
         chartSpec?.let { 
-            return it.chartEntities.size
+//            return it.chartEntities.size
         }
         return 0
     }

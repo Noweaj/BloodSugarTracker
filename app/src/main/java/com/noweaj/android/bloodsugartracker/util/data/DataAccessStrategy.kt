@@ -1,11 +1,16 @@
 package com.noweaj.android.bloodsugartracker.util.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
 import com.noweaj.android.bloodsugartracker.util.chart.*
 import kotlinx.coroutines.Dispatchers
+import org.json.JSONObject
+import java.util.*
+
+private val TAG = "DataAccessStrategy"
 
 fun performInitChartOperation(
     databaseQuery: () -> List<ChartEntity>,
@@ -13,7 +18,7 @@ fun performInitChartOperation(
 ): LiveData<Resource<Nothing>> =
     liveData(Dispatchers.IO) { 
         emit(Resource.loading())
-        val source = databaseQuery.invoke()
+        val source = databaseQuery.invoke().map { it }
         if(source.isEmpty()){
             // add chart into db and update ChartParams
             insertSampleChart.invoke(
@@ -25,8 +30,13 @@ fun performInitChartOperation(
                         timeframe = 24,
                         option = JsonHelper.JsonObjectHelper()
                             .putOption("isFixedTimeframe", false)
+                            .putOption("fixedTimeFrame_from", 0)
+                            .putOption("fixedTimeFrame_to", 0)
                             .putOption("eventFilter", JsonHelper.JsonObjectHelper()
                                 .putOption("event", "all")
+                                .putOption("minValue", 0)
+                                .putOption("maxValue", -1)
+                                .getObject()
                             )
                             .getObject().toString()
                     )
@@ -35,10 +45,50 @@ fun performInitChartOperation(
             // emit result as success
             emit(Resource.success(null))
         } else {
-            // update ChartParams
-            ChartParams.setChartParams(source)
+            Log.d(TAG, "chart: ${source[0].id} ${source[0].title} ${source[0].timeframe} ${source[0].option}")
             // emit result as error
             emit(Resource.error("chart list is not empty", null))
+        }
+    }
+
+fun performUpdateChartOperation(
+    chartDatabaseQuery: () -> List<ChartEntity>,
+    eventDatabaseQuery: (Long, Long) -> List<EventEntity>
+): LiveData<Resource<List<ChartSpec>>> =
+    liveData(Dispatchers.IO) { 
+        emit(Resource.loading())
+        val chartList = chartDatabaseQuery.invoke().map { it }
+        if(chartList.isEmpty())
+            emit(Resource.error("chart list is empty. please restart the application"))
+        val eventList = mutableListOf<List<EventEntity>>()
+        for(i in chartList.indices){
+            val chartOption = JSONObject(chartList[i].option)
+            val isFixedTimeframe = chartOption.getBoolean("isFixedTimeframe")
+            var from: Long = 0
+            var to: Long = 0
+            if(isFixedTimeframe){
+                from = chartOption.getLong("fixedTimeframe_from")
+                to = chartOption.getLong("fixedTimeframe_to")
+            } else {
+                from = CalendarUtil.getStartOfDay(Calendar.getInstance().timeInMillis - (chartList[i].timeframe*3600000))
+                to = CalendarUtil.getEndOfDay()
+            }
+            val eventEntities = eventDatabaseQuery.invoke(from, to)
+            eventList.add(eventEntities)
+        }
+        if(eventList.isNotEmpty()){
+            val chartSpecs = mutableListOf<ChartSpec>()
+            for(i in chartList.indices){
+                chartSpecs.add(
+                    ChartSpec(
+                        chartList[i],
+                        eventList[i]
+                    )
+                )
+            }
+            emit(Resource.success(chartSpecs))
+        } else {
+            emit(Resource.error("", null))
         }
     }
 

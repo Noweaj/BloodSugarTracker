@@ -64,39 +64,39 @@ class EventLocalDataSource(
         )
     }
     
-    suspend fun getEntitiesBetweenDatesByChart(chartEntities: List<ChartEntity>?): Resource<ChartSpec> {
-        chartEntities?: return Resource(
-            Resource.Status.ERROR,
-            null,
-            "chartEntities is null"
-        )
-        val eventEntities = mutableListOf<List<EventEntity>>()
-        for(i in chartEntities.indices){
-            val getJob = CoroutineScope(Dispatchers.IO).launch {
-                Log.d("eventLocalDataSource", "from: ${chartEntities[i].from} to: ${chartEntities[i].to}")
-                val myEntity = dao.getEntitiesBetweenDates(
-                    chartEntities[i].from,
-                    chartEntities[i].to
-                )
-                Log.d("eventLocalDataSource", "${myEntity.size}")
-                for(j in myEntity.indices){
-                    Log.d("eventLocalDataSource", "${myEntity[j].timestamp}")
-                }
-                eventEntities.add(myEntity)
-//                eventEntities.add(dao.getEntitiesBetweenDates(
-//                    chartEntities.get(i).from,
-//                    chartEntities.get(i).to
-//                ) )
-            }
-            getJob.join()
-        }
-        return Resource(
-            Resource.Status.SUCCESS,
-            ChartSpec(
-                chartEntities = chartEntities,
-                eventEntitiesPerChart = eventEntities
-            ),
-            null
-        )
-    }
+//    suspend fun getEntitiesBetweenDatesByChart(chartEntities: List<ChartEntity>?): Resource<ChartSpec> {
+//        chartEntities?: return Resource(
+//            Resource.Status.ERROR,
+//            null,
+//            "chartEntities is null"
+//        )
+//        val eventEntities = mutableListOf<List<EventEntity>>()
+//        for(i in chartEntities.indices){
+//            val getJob = CoroutineScope(Dispatchers.IO).launch {
+//                Log.d("eventLocalDataSource", "from: ${chartEntities[i].from} to: ${chartEntities[i].to}")
+//                val myEntity = dao.getEntitiesBetweenDates(
+//                    chartEntities[i].from,
+//                    chartEntities[i].to
+//                )
+//                Log.d("eventLocalDataSource", "${myEntity.size}")
+//                for(j in myEntity.indices){
+//                    Log.d("eventLocalDataSource", "${myEntity[j].timestamp}")
+//                }
+//                eventEntities.add(myEntity)
+////                eventEntities.add(dao.getEntitiesBetweenDates(
+////                    chartEntities.get(i).from,
+////                    chartEntities.get(i).to
+////                ) )
+//            }
+//            getJob.join()
+//        }
+//        return Resource(
+//            Resource.Status.SUCCESS,
+//            ChartSpec(
+//                chartEntities = chartEntities,
+//                eventEntitiesPerChart = eventEntities
+//            ),
+//            null
+//        )
+//    }
 }

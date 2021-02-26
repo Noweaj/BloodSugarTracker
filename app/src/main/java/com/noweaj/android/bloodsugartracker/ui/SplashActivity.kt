@@ -26,7 +26,10 @@ class SplashActivity: AppCompatActivity() {
     
     private val viewModel: SplashActivityViewModel by viewModels {
         InjectionUtil.provideSplashActivityViewModelFactory(
-            InjectionUtil.provideChartRepository(AppDatabase.getInstance(this).chartDao())
+            InjectionUtil.provideGlucoseRepository(
+                AppDatabase.getInstance(this).chartDao(),
+                AppDatabase.getInstance(this).eventDao()
+            )
         )
     }
     private lateinit var binding: ActivitySplashBinding
@@ -57,21 +60,6 @@ class SplashActivity: AppCompatActivity() {
                 }
             }
         }
-//        binding.viewModel!!.chartEntities.observe(this){
-//            when(it.status){
-//                Resource.Status.LOADING -> {
-//                    Log.d(TAG, "chartEntities -> LOADING")
-//                }
-//                Resource.Status.SUCCESS -> {
-//                    Log.d(TAG, "chartEntities -> SUCCESS: ${it.data}")
-//                    binding.viewModel!!.setChartParams(it.data!!)
-//                }
-//                Resource.Status.ERROR -> {
-//                    Log.e(TAG, "chartEntities -> ERROR: ${it.message}")
-//                    binding.viewModel!!.addSampleChart()
-//                }
-//            }
-//        }
     }
     
     private fun navigateToMain(){

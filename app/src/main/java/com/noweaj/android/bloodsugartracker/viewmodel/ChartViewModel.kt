@@ -2,20 +2,36 @@ package com.noweaj.android.bloodsugartracker.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.repository.ChartRepository
 import com.noweaj.android.bloodsugartracker.data.repository.EventRepository
+import com.noweaj.android.bloodsugartracker.data.repository.GlucoseRepository
 import com.noweaj.android.bloodsugartracker.util.chart.ChartSpec
 import com.noweaj.android.bloodsugartracker.util.data.Resource
 import com.noweaj.android.bloodsugartracker.util.oneDayInTimeMillis
 import java.util.*
 
 class ChartViewModel(
-    private val chartRepository: ChartRepository,
-    private val eventRepository: EventRepository
+    private val repository: GlucoseRepository
 ) : ViewModel() {
     private val TAG = ChartViewModel::class.java.simpleName
+    
+    private val _updateChart = MutableLiveData<Unit>()
+    private val _chartSpec = _updateChart.switchMap { 
+        repository.updateChartInformation()
+    }
+//    private val _chartSpec = MutableLiveData<Resource<List<ChartSpec>>>()
+    val chartSpec: LiveData<Resource<List<ChartSpec>>> = _chartSpec
+
+    fun updateChart(){
+        Log.d(TAG, "updateChart")
+        _updateChart.postValue(Unit)
+    }
+    
+    
 
     /**
      * Chart를 저장한 시점으로만 날짜가 고정되는 문제 발견!
@@ -35,10 +51,10 @@ class ChartViewModel(
 //    private val _sampleChartAdded = MutableLiveData<Resource<Long>>()
 //    val sampleChartAdded: LiveData<Resource<Long>>
 //        get() = _sampleChartAdded
-    var chartEntities: LiveData<Resource<List<ChartEntity>>>
-        = chartRepository.getAllChart()
-    var chartSpec: LiveData<Resource<ChartSpec>>
-        = eventRepository.getEntitiesByChartList(null)
+//    var chartEntities: LiveData<Resource<List<ChartEntity>>>
+//        = chartRepository.getAllChart()
+//    var chartSpec: LiveData<Resource<ChartSpec>>
+//        = eventRepository.getEntitiesByChartList(null)
     
 //    private val _chartData = MutableLiveData<Resource<ChartData>>()
 //    val chartData: LiveData<Resource<ChartData>>
@@ -65,14 +81,11 @@ class ChartViewModel(
         
     }
     
-    fun updateChart(){
-        Log.d(TAG, "updateChart")
-        chartEntities = chartRepository.getAllChart()
-    }
     
-    fun getEventEntities(chartEntities: List<ChartEntity>){
-        Log.d(TAG, "getEventEntities")
-        chartSpec = eventRepository.getEntitiesByChartList(chartEntities)
-//        _chartData.postValue(eventRepository.getEntitiesByChartList(chartEntities).value)
-    }
+
+//    fun getEventEntities(chartEntities: List<ChartEntity>){
+//        Log.d(TAG, "getEventEntities")
+//        chartSpec = eventRepository.getEntitiesByChartList(chartEntities)
+////        _chartData.postValue(eventRepository.getEntitiesByChartList(chartEntities).value)
+//    }
 }

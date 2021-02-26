@@ -22,7 +22,10 @@ class EventAddValueNoteFragment: Fragment() {
 
     private val viewModel: EventAddValueNoteViewModel by viewModels {
         InjectionUtil.provideEventAddValueNoteViewModelFactory(
-            InjectionUtil.provideEventRepository(AppDatabase.getInstance(requireContext()).eventDao())
+            InjectionUtil.provideGlucoseRepository(
+                AppDatabase.getInstance(requireContext()).chartDao(),
+                AppDatabase.getInstance(requireContext()).eventDao()
+            )
         )
     }
 
@@ -38,27 +41,27 @@ class EventAddValueNoteFragment: Fragment() {
 
         binding.viewModel!!.setEventEntity(entity)
 
-        observe(binding)
+//        observe(binding)
 
         return binding.root
     }
 
-    private fun observe(binding: FragmentEventAddValueNoteBinding){
-        binding.viewModel!!.insertEvent.observe(viewLifecycleOwner){
-            when(it.status){
-                Resource.Status.LOADING -> {
-                    Log.d(TAG, "LOADING")
-                }
-                Resource.Status.SUCCESS -> {
-                    Log.d(TAG, "SUCCESS ${it.data}")
-                    findNavController().navigate(
-                        EventAddValueNoteFragmentDirections
-                            .actionEventAddValueNoteToChartFragment())
-                }
-                Resource.Status.ERROR -> {
-                    Log.d(TAG, "ERROR")
-                }
-            }
-        }
-    }
+//    private fun observe(binding: FragmentEventAddValueNoteBinding){
+//        binding.viewModel!!.insertEvent.observe(viewLifecycleOwner){
+//            when(it.status){
+//                Resource.Status.LOADING -> {
+//                    Log.d(TAG, "LOADING")
+//                }
+//                Resource.Status.SUCCESS -> {
+//                    Log.d(TAG, "SUCCESS ${it.data}")
+//                    findNavController().navigate(
+//                        EventAddValueNoteFragmentDirections
+//                            .actionEventAddValueNoteToChartFragment())
+//                }
+//                Resource.Status.ERROR -> {
+//                    Log.d(TAG, "ERROR")
+//                }
+//            }
+//        }
+//    }
 }

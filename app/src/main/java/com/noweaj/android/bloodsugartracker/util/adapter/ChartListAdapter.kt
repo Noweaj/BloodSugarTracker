@@ -1,5 +1,6 @@
 package com.noweaj.android.bloodsugartracker.util.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,12 +13,14 @@ class ChartListAdapter(
     
 ): RecyclerView.Adapter<ChartListAdapter.ChartListViewHolder>() {
     
-    private var chartSpec: ChartSpec? = null
+    private val TAG = ChartListAdapter::class.java.simpleName
+    private var chartSpecs = mutableListOf<ChartSpec>()
     
     fun setData(
-        chartSpec: ChartSpec
+        chartSpecs: List<ChartSpec>
     ){
-        this.chartSpec = chartSpec
+        this.chartSpecs.clear()
+        this.chartSpecs.addAll(chartSpecs)
         notifyDataSetChanged()
     }
     
@@ -31,29 +34,25 @@ class ChartListAdapter(
     }
 
     override fun onBindViewHolder(holder: ChartListViewHolder, position: Int) {
-        chartSpec?.let {
-//            holder.bind(
-//                it.chartEntities[position],
-//                it.eventEntitiesPerChart[position]
-//            )
+        chartSpecs?.let {
+            holder.bind(it[0])
         }
     }
 
     override fun getItemCount(): Int {
-        chartSpec?.let { 
-//            return it.chartEntities.size
-        }
+        chartSpecs?.let { return it.size }
         return 0
     }
 
     class ChartListViewHolder(
         private val binding: ItemChartBinding
     ): RecyclerView.ViewHolder(binding.root){
+        private val TAG = ChartListViewHolder::class.java.simpleName
+        
         fun bind(
-            chartEntity: ChartEntity,
-            eventEntities: List<EventEntity>
+            chartSpec: ChartSpec
         ){
-            
+            Log.d(TAG, "chartEntity.title ${chartSpec.chartEntity.title}")
         }
     }
 }

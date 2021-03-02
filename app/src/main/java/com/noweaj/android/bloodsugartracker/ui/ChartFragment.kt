@@ -61,13 +61,13 @@ class ChartFragment : Fragment() {
     
     private fun observe(){
         binding.viewModel!!.chartSpec.observe(viewLifecycleOwner){
-            Log.d(TAG, "chartSpec")
+            Log.d(TAG, "chartSpec ${it.status}")
             when(it.status){
                 Resource.Status.LOADING -> {
                     
                 }
                 Resource.Status.SUCCESS -> {
-                    
+                    rvAdapter.setData(it.data!!)
                 }
                 Resource.Status.ERROR -> {
                     

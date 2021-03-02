@@ -86,9 +86,9 @@ fun performUpdateChartOperation(
                     )
                 )
             }
-            emit(Resource.success(chartSpecs))
+            emit(Resource.success(chartSpecs.toList()))
         } else {
-            emit(Resource.error("", null))
+            emit(Resource.error("event list is empty", null))
         }
     }
 

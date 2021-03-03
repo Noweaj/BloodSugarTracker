@@ -50,10 +50,11 @@ class ChartFragment : Fragment() {
     private fun setView(){
         val linearLayoutManager = object: LinearLayoutManager(requireActivity().applicationContext){
             override fun checkLayoutParams(lp: RecyclerView.LayoutParams?): Boolean {
-                lp!!.height = height/3
+                lp!!.height = height/2
                 return true
             }
         }
+//        val linearLayoutManager = LinearLayoutManager(requireContext())
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.rvChart.layoutManager = linearLayoutManager
         binding.rvChart.adapter = rvAdapter

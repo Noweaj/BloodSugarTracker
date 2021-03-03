@@ -1,13 +1,22 @@
 package com.noweaj.android.bloodsugartracker.util.adapter
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.github.mikephil.charting.charts.CombinedChart
+import com.github.mikephil.charting.components.LimitLine
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.CombinedData
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
 import com.noweaj.android.bloodsugartracker.databinding.ItemChartBinding
 import com.noweaj.android.bloodsugartracker.util.chart.ChartSpec
+import com.noweaj.android.bloodsugartracker.util.chart.DayAxisValueFormatter
 
 class ChartListAdapter(
     
@@ -52,7 +61,65 @@ class ChartListAdapter(
         fun bind(
             chartSpec: ChartSpec
         ){
-            Log.d(TAG, "chartEntity.title ${chartSpec.chartEntity.title}")
+            binding.tvRvTitle.text = chartSpec.chartEntity.title
+            binding.ccRvChart.setBackgroundColor(Color.WHITE)
+            binding.ccRvChart.drawOrder = arrayOf(
+                CombinedChart.DrawOrder.BAR,
+                CombinedChart.DrawOrder.LINE
+            )
+            val data = CombinedData()
+            data.setData(getBarData(chartSpec.eventEntities))
+
+//            val limitLine_140 = LimitLine(140f, "2hr")
+//            limitLine_140.lineWidth = 4f
+//            limitLine_140.enableDashedLine(10f, 10f, 0f)
+//            limitLine_140.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
+//            limitLine_140.textSize = 10f
+//
+//            val limitLine_180 = LimitLine(180f, "1hr")
+//            limitLine_180.lineWidth = 4f
+//            limitLine_180.enableDashedLine(10f, 10f, 0f)
+//            limitLine_180.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
+//            limitLine_180.textSize = 10f
+
+            val yAxis = binding.ccRvChart.axisLeft
+//            yAxis.addLimitLine(limitLine_140)
+//            yAxis.addLimitLine(limitLine_180)
+
+            yAxis.mAxisMaximum = 200f
+
+            val xAxis = binding.ccRvChart.xAxis
+            xAxis.granularity = 1f
+            xAxis.valueFormatter = DayAxisValueFormatter(binding.ccRvChart)
+            
+            binding.ccRvChart.data = data
+        }
+        
+        private fun getBarData(entities: List<EventEntity>): BarData{
+            val entries = ArrayList<BarEntry>()
+//            for(i in entities.indices){
+//                entries.add(BarEntry(
+//                    (i+1) as Float, entities[i].value as Float
+//                ))
+//            }
+
+            entries.add(BarEntry(1f, 85f))
+            entries.add(BarEntry(2f, 112f))
+            entries.add(BarEntry(3f, 198f))
+            entries.add(BarEntry(4f, 165f))
+            entries.add(BarEntry(5f, 130f))
+            entries.add(BarEntry(6f, 184f))
+            
+            val set = BarDataSet(entries, "Bar")
+            set.color = Color.rgb(60, 220, 78)
+            set.valueTextColor = Color.rgb(60, 220, 78)
+            set.valueTextSize = 10f
+            set.axisDependency = YAxis.AxisDependency.LEFT
+            
+            val data = BarData(set)
+            data.barWidth = 0.45f
+            
+            return data
         }
     }
 }

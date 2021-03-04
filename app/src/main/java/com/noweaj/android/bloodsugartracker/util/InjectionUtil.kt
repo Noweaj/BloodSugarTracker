@@ -8,10 +8,7 @@ import com.noweaj.android.bloodsugartracker.data.local.EventLocalDataSource
 import com.noweaj.android.bloodsugartracker.data.repository.ChartRepository
 import com.noweaj.android.bloodsugartracker.data.repository.EventRepository
 import com.noweaj.android.bloodsugartracker.data.repository.GlucoseRepository
-import com.noweaj.android.bloodsugartracker.util.factory.ChartViewModelFactory
-import com.noweaj.android.bloodsugartracker.util.factory.EventAddTimeEventViewModelFactory
-import com.noweaj.android.bloodsugartracker.util.factory.EventAddValueNoteViewModelFactory
-import com.noweaj.android.bloodsugartracker.util.factory.SplashActivityViewModelFactory
+import com.noweaj.android.bloodsugartracker.util.factory.*
 
 object InjectionUtil {
     fun provideGlucoseRepository(
@@ -66,6 +63,14 @@ object InjectionUtil {
     ): EventAddValueNoteViewModelFactory {
         return EventAddValueNoteViewModelFactory(
            repository = glucoseRepository
+        )
+    }
+    
+    fun provideSettingsChartManagerViewModelFactory(
+        glucoseRepository: GlucoseRepository
+    ): SettingsChartManagerViewModelFactory{
+        return SettingsChartManagerViewModelFactory(
+            repository = glucoseRepository
         )
     }
     

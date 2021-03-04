@@ -11,6 +11,9 @@
         android:label="@string/string_title_bottomnav_chart"
         tools:layout="@layout/fragment_chart" />
 
+    <!--
+    EventFragment
+    -->
     <fragment
         android:id="@+id/fragment_main_event"
         android:name="com.noweaj.android.bloodsugartracker.ui.event.EventFragment"
@@ -34,12 +37,6 @@
             app:popExitAnim="@anim/slide_out_right"/>
 
     </fragment>
-
-    <fragment
-        android:id="@+id/fragment_main_settings"
-        android:name="com.noweaj.android.bloodsugartracker.ui.SettingsFragment"
-        android:label="@string/string_title_bottomnav_settings"
-        tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/fragment_event_add_time_event"
@@ -102,5 +99,47 @@
             android:defaultValue="-1L"/>
 
     </fragment>
+    
+    <!--
+    SettingsFragment
+    -->
+    <fragment
+        android:id="@+id/fragment_main_settings"
+        android:name="com.noweaj.android.bloodsugartracker.ui.settings.SettingsFragment"
+        android:label="@string/string_title_bottomnav_settings"
+        tools:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/action_main_settings_to_settings_chart_manager"
+            app:destination="@id/fragment_settings_chart_manager"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+
+        <action
+            android:id="@+id/action_main_settings_to_settings_notification_manager"
+            app:destination="@id/fragment_settings_notification_manager"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+        
+    </fragment>
+    
+    <fragment
+        android:id="@+id/fragment_settings_chart_manager"
+        android:name="com.noweaj.android.bloodsugartracker.ui.settings.SettingsChartManagerFragment"
+        tools:layout="@layout/fragment_settings_chart_manager">
+        
+    </fragment>
+    
+    <fragment
+        android:id="@+id/fragment_settings_notification_manager"
+        android:name="com.noweaj.android.bloodsugartracker.ui.settings.SettingsNotificationManagerFragment"
+        tools:layout="@layout/fragment_settings_notification_manager">
+        
+    </fragment>
+
 
 </navigation>

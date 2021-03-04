@@ -61,7 +61,7 @@ class EventAddTimeEventFragment: Fragment(), EventNavigator {
         return -1
     }
 
-    override fun proceed(eventEntity: EventEntity) {
+    override fun navigateNext(eventEntity: EventEntity) {
         Log.d(TAG, "proceed")
         findNavController().navigate(
             EventAddTimeEventFragmentDirections

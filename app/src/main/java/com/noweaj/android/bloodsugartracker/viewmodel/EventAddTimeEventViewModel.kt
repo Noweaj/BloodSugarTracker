@@ -31,7 +31,7 @@ class EventAddTimeEventViewModel(
     fun onNextButtonClicked(){
         Log.d(TAG, "timestamp: ${timestamp.get()}, event: ${event.get()}")
         navigator?.let {
-            it.get()!!.proceed(EventEntity(
+            it.get()!!.navigateNext(EventEntity(
                 timestamp = timestamp.get()!!.toLong(),
                 event = event.get()!!,
                 value = 0,

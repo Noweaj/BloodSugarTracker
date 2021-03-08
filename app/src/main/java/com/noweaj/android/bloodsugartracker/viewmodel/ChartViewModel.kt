@@ -5,25 +5,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
-import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
-import com.noweaj.android.bloodsugartracker.data.repository.ChartRepository
-import com.noweaj.android.bloodsugartracker.data.repository.EventRepository
 import com.noweaj.android.bloodsugartracker.data.repository.GlucoseRepository
 import com.noweaj.android.bloodsugartracker.util.chart.ChartSpec
 import com.noweaj.android.bloodsugartracker.util.data.Resource
-import com.noweaj.android.bloodsugartracker.util.oneDayInTimeMillis
-import java.util.*
 
 class ChartViewModel(
     private val repository: GlucoseRepository
-) : ViewModel() {
+): ViewModel() {
     private val TAG = ChartViewModel::class.java.simpleName
     
     private val _updateChart = MutableLiveData<Unit>()
     private val _chartSpec = _updateChart.switchMap { 
-        repository.updateChartInformation()
+        repository.getAllChartSpecs()
     }
-//    private val _chartSpec = MutableLiveData<Resource<List<ChartSpec>>>()
     val chartSpec: LiveData<Resource<List<ChartSpec>>> = _chartSpec
 
     fun updateChart(){

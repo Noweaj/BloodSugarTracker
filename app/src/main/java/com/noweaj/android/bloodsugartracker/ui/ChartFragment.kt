@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.noweaj.android.bloodsugartracker.data.local.AppDatabase
 import com.noweaj.android.bloodsugartracker.databinding.FragmentChartBinding
 import com.noweaj.android.bloodsugartracker.util.InjectionUtil
-import com.noweaj.android.bloodsugartracker.util.adapter.ChartListAdapter
+import com.noweaj.android.bloodsugartracker.util.adapter.ChartFragmentListAdapter
 import com.noweaj.android.bloodsugartracker.util.data.Resource
 import com.noweaj.android.bloodsugartracker.viewmodel.ChartViewModel
 
@@ -30,7 +30,7 @@ class ChartFragment : Fragment() {
     }
     
     private lateinit var binding: FragmentChartBinding
-    private val rvAdapter = ChartListAdapter()
+    private val rvAdapter = ChartFragmentListAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,8 +56,8 @@ class ChartFragment : Fragment() {
         }
 //        val linearLayoutManager = LinearLayoutManager(requireContext())
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        binding.rvChart.layoutManager = linearLayoutManager
-        binding.rvChart.adapter = rvAdapter
+        binding.rvChartChartlist.layoutManager = linearLayoutManager
+        binding.rvChartChartlist.adapter = rvAdapter
     }
     
     private fun observe(){
@@ -68,6 +68,7 @@ class ChartFragment : Fragment() {
                     
                 }
                 Resource.Status.SUCCESS -> {
+                    Log.d(TAG, "chartSpec size: ${it.data!!.size}")
                     rvAdapter.setData(it.data!!)
                 }
                 Resource.Status.ERROR -> {

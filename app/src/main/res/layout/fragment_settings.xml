@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="add chart"
+            android:text="Chart Manager"
             android:onClick="@{(v)->viewModel.onButtonClicked(v)}"/>
         
         <Button

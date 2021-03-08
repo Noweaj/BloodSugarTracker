@@ -1,28 +1,26 @@
 package com.noweaj.android.bloodsugartracker.util.adapter
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.CombinedChart
-import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.CombinedData
-import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.entity.EventEntity
-import com.noweaj.android.bloodsugartracker.databinding.ItemChartBinding
+import com.noweaj.android.bloodsugartracker.databinding.ItemChartChartListBinding
 import com.noweaj.android.bloodsugartracker.util.chart.ChartSpec
 import com.noweaj.android.bloodsugartracker.util.chart.DayAxisValueFormatter
 
-class ChartListAdapter(
+class ChartFragmentListAdapter(
     
-): RecyclerView.Adapter<ChartListAdapter.ChartListViewHolder>() {
+): RecyclerView.Adapter<ChartFragmentListAdapter.ChartListViewHolder>() {
     
-    private val TAG = ChartListAdapter::class.java.simpleName
+    private val TAG = ChartFragmentListAdapter::class.java.simpleName
     private var chartSpecs = mutableListOf<ChartSpec>()
     
     fun setData(
@@ -34,7 +32,7 @@ class ChartListAdapter(
     }
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChartListViewHolder {
-        val binding: ItemChartBinding = ItemChartBinding.inflate(
+        val binding: ItemChartChartListBinding = ItemChartChartListBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -44,24 +42,28 @@ class ChartListAdapter(
 
     override fun onBindViewHolder(holder: ChartListViewHolder, position: Int) {
         chartSpecs?.let {
-            holder.bind(it[0])
+            holder.bind(it[position])
         }
     }
 
     override fun getItemCount(): Int {
-        chartSpecs?.let { return it.size }
-        return 0
+        return chartSpecs.size
     }
 
     class ChartListViewHolder(
-        private val binding: ItemChartBinding
+        private val binding: ItemChartChartListBinding
     ): RecyclerView.ViewHolder(binding.root){
         private val TAG = ChartListViewHolder::class.java.simpleName
         
         fun bind(
             chartSpec: ChartSpec
         ){
-            binding.tvRvTitle.text = chartSpec.chartEntity.title
+            binding.tvChartTitle.text = chartSpec.chartEntity.title
+            if(chartSpec.chartEntity.description.isBlank()){
+                binding.tvChartDescription.visibility = View.GONE
+            } else {
+                binding.tvChartDescription.text = chartSpec.chartEntity.description
+            }
             binding.ccRvChart.setBackgroundColor(Color.WHITE)
             binding.ccRvChart.drawOrder = arrayOf(
                 CombinedChart.DrawOrder.BAR,

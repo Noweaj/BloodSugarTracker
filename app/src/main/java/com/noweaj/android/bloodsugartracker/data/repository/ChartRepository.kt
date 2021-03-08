@@ -12,11 +12,11 @@ class ChartRepository(
     /**
      * local
      */
-    fun initChartInformation() =
-        performInitChartOperation(
-            databaseQuery = { localDataSource.getAllEntities() },
-            insertSampleChart = { localDataSource.insertEntity(it) }
-        )
+//    fun initChartInformation() =
+//        performInitChartOperation(
+//            databaseQuery = { localDataSource.getAllEntities() },
+//            insertSampleChart = { localDataSource.insertEntity(it) }
+//        )
 //    
 //    fun insertSampleChartIfNeeded(chartEntity: ChartEntity) = 
 //        performLocalSingleInsertOperation(

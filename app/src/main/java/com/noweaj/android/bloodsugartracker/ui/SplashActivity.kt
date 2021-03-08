@@ -47,8 +47,7 @@ class SplashActivity: AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         binding.viewModel = viewModel
         
-        setupChart()
-        
+//        setupChart()
         observe()
     }
     

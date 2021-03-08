@@ -14,34 +14,79 @@ private val TAG = "DataAccessStrategy"
 
 fun performInitChartOperation(
     databaseQuery: () -> List<ChartEntity>,
-    insertSampleChart: suspend (ChartEntity) -> Unit
+    insertSampleChart: suspend (List<ChartEntity>) -> Unit
 ): LiveData<Resource<Nothing>> =
     liveData(Dispatchers.IO) { 
         emit(Resource.loading())
         val source = databaseQuery.invoke().map { it }
         if(source.isEmpty()){
             // add chart into db and update ChartParams
-            insertSampleChart.invoke(
-                ChartParams.addChart(
-                    ChartEntity(
-                        id = 0,
-                        title = "Last 24 hours",
-                        description = "Overview of past 24 hours",
-                        timeframe = 24,
-                        option = JsonHelper.JsonObjectHelper()
-                            .putOption("isFixedTimeframe", false)
-                            .putOption("fixedTimeFrame_from", 0)
-                            .putOption("fixedTimeFrame_to", 0)
-                            .putOption("eventFilter", JsonHelper.JsonObjectHelper()
-                                .putOption("event", "all")
-                                .putOption("minValue", 0)
-                                .putOption("maxValue", -1)
-                                .getObject()
-                            )
-                            .getObject().toString()
-                    )
+            val chartList = mutableListOf<ChartEntity>()
+            chartList.add(
+                ChartEntity(
+                    id = 1,
+                    title = "Last 24 hours",
+                    description = "Overview of past 24 hours",
+                    timeframe = 24,
+                    option = JsonHelper.JsonObjectHelper()
+                        .putOption("isFixedTimeframe", false)
+                        .putOption("fixedTimeFrame_from", 0)
+                        .putOption("fixedTimeFrame_to", 0)
+                        .putOption("eventFilter", JsonHelper.JsonObjectHelper()
+                            .putOption("event", "all")
+                            .putOption("minValue", 0)
+                            .putOption("maxValue", -1)
+                            .getObject()
+                        )
+                        .getObject().toString()
                 )
             )
+            
+            chartList.add(
+                ChartEntity(
+                    id = 2,
+                    title = "Last 7 days",
+                    description = "Overview of past 7 days",
+                    timeframe = 168,
+                    option = JsonHelper.JsonObjectHelper()
+                        .putOption("isFixedTimeframe", false)
+                        .putOption("fixedTimeFrame_from", 0)
+                        .putOption("fixedTimeFrame_to", 0)
+                        .putOption("eventFilter", JsonHelper.JsonObjectHelper()
+                            .putOption("event", "all")
+                            .putOption("minValue", 0)
+                            .putOption("maxValue", -1)
+                            .getObject()
+                        )
+                        .getObject().toString()
+                )
+            )
+            
+            insertSampleChart.invoke(
+                chartList
+            )
+            
+//            insertSampleChart.invoke(
+//                ChartParams.addChart(
+//                    ChartEntity(
+//                        id = 0,
+//                        title = "Last 24 hours",
+//                        description = "Overview of past 24 hours",
+//                        timeframe = 24,
+//                        option = JsonHelper.JsonObjectHelper()
+//                            .putOption("isFixedTimeframe", false)
+//                            .putOption("fixedTimeFrame_from", 0)
+//                            .putOption("fixedTimeFrame_to", 0)
+//                            .putOption("eventFilter", JsonHelper.JsonObjectHelper()
+//                                .putOption("event", "all")
+//                                .putOption("minValue", 0)
+//                                .putOption("maxValue", -1)
+//                                .getObject()
+//                            )
+//                            .getObject().toString()
+//                    )
+//                )
+//            )
             // emit result as success
             emit(Resource.success(null))
         } else {
@@ -51,7 +96,7 @@ fun performInitChartOperation(
         }
     }
 
-fun performUpdateChartOperation(
+fun performLocalGetAllChartSpecOperation(
     chartDatabaseQuery: () -> List<ChartEntity>,
     eventDatabaseQuery: (Long, Long) -> List<EventEntity>
 ): LiveData<Resource<List<ChartSpec>>> =
@@ -91,6 +136,43 @@ fun performUpdateChartOperation(
             emit(Resource.error("event list is empty", null))
         }
     }
+
+fun performLocalGetAllChartEntitiesOperation(
+    chartDatabaseQuery: suspend() -> List<ChartEntity>
+): LiveData<Resource<List<ChartEntity>>> = 
+    liveData(Dispatchers.IO) { 
+        emit(Resource.loading())
+        val queryResult = chartDatabaseQuery.invoke()
+        if(queryResult.isNotEmpty())
+            emit(Resource.success(queryResult))
+        else
+            emit(Resource.error("list empty", null))
+//        if(getResult.status == Resource.Status.SUCCESS){
+//            emit(Resource.success(getResult.data!!))
+//        } else {
+//            emit(Resource.error(getResult.message!!, null))
+//        }
+    }
+
+fun performLocalGetAllChartOperation(
+    chartDatabaseQuery: suspend() -> Resource<List<ChartEntity>>
+): LiveData<Resource<List<ChartEntity>>> =
+    liveData(Dispatchers.IO) {
+        emit(Resource.loading())
+        val getResult = chartDatabaseQuery.invoke()
+        if(getResult.status == Resource.Status.SUCCESS){
+            val resultData = getResult.data!!
+            if(resultData.isEmpty())
+                emit(Resource.error("empty list", null))
+            else
+                emit(Resource.success(getResult.data!!))
+        } else {
+            emit(Resource.error(getResult.message!!, null))
+        }
+    }
+
+
+
 
 
 fun performLocalSingleInsertOperation(
@@ -145,22 +227,7 @@ fun performLocalGetEventOperation(
         }
     }
 
-fun performLocalGetAllChartOperation(
-    method: suspend() -> Resource<List<ChartEntity>>
-): LiveData<Resource<List<ChartEntity>>> = 
-    liveData(Dispatchers.IO) { 
-        emit(Resource.loading())
-        val getResult = method.invoke()
-        if(getResult.status == Resource.Status.SUCCESS){
-            val resultData = getResult.data!!
-            if(resultData.isEmpty())
-                emit(Resource.error("empty list", null))
-            else 
-                emit(Resource.success(getResult.data!!))
-        } else {
-            emit(Resource.error(getResult.message!!, null))
-        }
-    }
+
 
 fun performLocalGetEventByChartOperation(
     method: suspend() -> Resource<ChartSpec>

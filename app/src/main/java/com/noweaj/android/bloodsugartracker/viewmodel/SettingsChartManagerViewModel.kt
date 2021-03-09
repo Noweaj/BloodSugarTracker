@@ -9,8 +9,10 @@ import androidx.lifecycle.switchMap
 import com.noweaj.android.bloodsugartracker.R
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.repository.GlucoseRepository
+import com.noweaj.android.bloodsugartracker.navigator.SettingsNavigator
 import com.noweaj.android.bloodsugartracker.util.chart.ChartSpec
 import com.noweaj.android.bloodsugartracker.util.data.Resource
+import java.lang.ref.WeakReference
 
 class SettingsChartManagerViewModel(
     private val repository: GlucoseRepository
@@ -23,6 +25,12 @@ class SettingsChartManagerViewModel(
     }
     val chartList: LiveData<Resource<List<ChartEntity>>> = _chartList
     
+    private var navigator: WeakReference<SettingsNavigator>? = null
+    
+    fun setNavigator(navigator: SettingsNavigator){
+        this.navigator = WeakReference(navigator)
+    }
+    
     fun updateChartList(){
         Log.d(TAG, "updateChart")
         _updateChart.postValue(Unit)
@@ -32,9 +40,6 @@ class SettingsChartManagerViewModel(
         when(v.id){
             R.id.iv_settings_chartmanager_addchart -> {
                 Log.d(TAG, "addChart clicked")
-            }
-            R.id.iv_settings_chartmanager_removechart -> {
-                Log.d(TAG, "removeChart clicked")
             }
         }
     }

@@ -25,6 +25,10 @@ class SettingsFragmentChartManagerListAdapter(
         return chartEntities
     }
     
+    fun getDataSize(): Int{
+        return chartEntities.size
+    }
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChartListViewHolder {
         val binding: ItemSettingsChartManagerBinding = ItemSettingsChartManagerBinding.inflate(
             LayoutInflater.from(parent.context),

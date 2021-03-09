@@ -154,6 +154,33 @@ fun performLocalGetAllChartEntitiesOperation(
 //        }
     }
 
+fun performLocalDeleteChartOperation(
+    chartDatabaseQuery: suspend() -> Int
+): LiveData<Resource<Int>> =
+    liveData { 
+        emit(Resource.loading())
+        val queryResult = chartDatabaseQuery.invoke()
+        if(queryResult == 1){
+            emit(Resource.success(queryResult))
+        } else {
+            emit(Resource.error("deleted row is not 1", null))
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 fun performLocalGetAllChartOperation(
     chartDatabaseQuery: suspend() -> Resource<List<ChartEntity>>
 ): LiveData<Resource<List<ChartEntity>>> =

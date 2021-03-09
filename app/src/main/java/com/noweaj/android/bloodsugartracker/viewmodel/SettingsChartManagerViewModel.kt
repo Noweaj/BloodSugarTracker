@@ -19,27 +19,39 @@ class SettingsChartManagerViewModel(
 ): ViewModel() {
     private val TAG = SettingsChartManagerViewModel::class.java.simpleName
     
+    private var navigator: WeakReference<SettingsNavigator>? = null
+
+    fun setNavigator(navigator: SettingsNavigator){
+        this.navigator = WeakReference(navigator)
+    }
+    
     private val _updateChart = MutableLiveData<Unit>()
     private val _chartList = _updateChart.switchMap { 
         repository.getAllChartEntities()
     }
     val chartList: LiveData<Resource<List<ChartEntity>>> = _chartList
     
-    private var navigator: WeakReference<SettingsNavigator>? = null
-    
-    fun setNavigator(navigator: SettingsNavigator){
-        this.navigator = WeakReference(navigator)
-    }
-    
     fun updateChartList(){
         Log.d(TAG, "updateChart")
         _updateChart.postValue(Unit)
+    }
+    
+    private val _deleteChart = MutableLiveData<ChartEntity>()
+    private val _chartDeleted = _deleteChart.switchMap { 
+        repository.deleteChartEntity(it)
+    }
+    val chartDeleted: LiveData<Resource<Int>> = _chartDeleted
+    
+    fun deleteChartEntity(entity: ChartEntity){
+        Log.d(TAG, "deleteChartEntity")
+        _deleteChart.postValue(entity)
     }
     
     fun onButtonClicked(v: View){
         when(v.id){
             R.id.iv_settings_chartmanager_addchart -> {
                 Log.d(TAG, "addChart clicked")
+                navigator!!.get()!!.navigateTo(0)
             }
         }
     }

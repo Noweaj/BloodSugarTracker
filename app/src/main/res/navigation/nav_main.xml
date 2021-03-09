@@ -132,6 +132,27 @@
         android:name="com.noweaj.android.bloodsugartracker.ui.settings.SettingsChartManagerFragment"
         tools:layout="@layout/fragment_settings_chart_manager">
         
+        <action
+            android:id="@+id/action_settings_chart_manager_to_settings_chart_detail"
+            app:destination="@id/fragment_settings_chart_detail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        
+    </fragment>
+    
+    <fragment
+        android:id="@+id/fragment_settings_chart_detail"
+        android:name="com.noweaj.android.bloodsugartracker.ui.settings.SettingsChartDetailFragment"
+        tools:layout="@layout/fragment_settings_chart_detail">
+        
+        <argument
+            android:name="chartEntity"
+            app:argType="com.noweaj.android.bloodsugartracker.data.entity.ChartEntity"
+            android:defaultValue="@null"
+            app:nullable="true"/>
+        
     </fragment>
     
     <fragment

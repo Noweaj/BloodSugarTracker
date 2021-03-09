@@ -74,4 +74,12 @@ object InjectionUtil {
         )
     }
     
+    fun provideSettingsChartDetailViewModelFactory(
+        glucoseRepository: GlucoseRepository
+    ): SettingsChartDetailViewModelFactory{
+        return SettingsChartDetailViewModelFactory(
+            repository = glucoseRepository
+        )
+    }
+    
 }

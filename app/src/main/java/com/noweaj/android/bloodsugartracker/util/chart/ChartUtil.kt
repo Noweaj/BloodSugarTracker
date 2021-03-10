@@ -39,6 +39,22 @@ object ChartUtil {
         )
 
         val yAxis: YAxis = chart.axisLeft
+        yAxis.enableGridDashedLine(
+            10f,
+            10f,
+            0f
+        )
+        
+        yAxis.mAxisMaximum = 200f
+        yAxis.axisMinimum = 0f
+        
+        // set data
+        
+        val data = arrayListOf<Long>(
+            100, 150, 125, 100, 90, 75
+        )
+        
+        
 
     }
     

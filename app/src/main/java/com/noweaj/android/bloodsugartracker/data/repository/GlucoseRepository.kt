@@ -3,10 +3,7 @@ package com.noweaj.android.bloodsugartracker.data.repository
 import com.noweaj.android.bloodsugartracker.data.entity.ChartEntity
 import com.noweaj.android.bloodsugartracker.data.local.ChartDao
 import com.noweaj.android.bloodsugartracker.data.local.EventDao
-import com.noweaj.android.bloodsugartracker.util.data.performInitChartOperation
-import com.noweaj.android.bloodsugartracker.util.data.performLocalDeleteChartOperation
-import com.noweaj.android.bloodsugartracker.util.data.performLocalGetAllChartEntitiesOperation
-import com.noweaj.android.bloodsugartracker.util.data.performLocalGetAllChartSpecOperation
+import com.noweaj.android.bloodsugartracker.util.data.*
 
 class GlucoseRepository (
     private val localChartDataSource: ChartDao,
@@ -29,6 +26,11 @@ class GlucoseRepository (
     fun getAllChartEntities() = 
         performLocalGetAllChartEntitiesOperation(
             chartDatabaseQuery = { localChartDataSource.getAllEntities() }
+        )
+    
+    fun insertChartEntity(chartEntity: ChartEntity) =
+        performLocalInsertChartOperation(
+            chartDatabaseQuery = { localChartDataSource.insertEntity(chartEntity) }
         )
     
     fun deleteChartEntity(chartEntity: ChartEntity) =

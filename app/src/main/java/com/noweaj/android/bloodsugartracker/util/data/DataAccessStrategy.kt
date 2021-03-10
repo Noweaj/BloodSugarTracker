@@ -154,10 +154,23 @@ fun performLocalGetAllChartEntitiesOperation(
 //        }
     }
 
+fun performLocalInsertChartOperation(
+    chartDatabaseQuery: suspend () -> Long
+): LiveData<Resource<Long>> =
+    liveData(Dispatchers.IO) { 
+        emit(Resource.loading())
+        val queryResult = chartDatabaseQuery.invoke()
+        if(queryResult > 0.toLong()){
+            emit(Resource.success(queryResult))
+        } else {
+            emit(Resource.error("adding row failed", null))
+        }
+    }
+
 fun performLocalDeleteChartOperation(
     chartDatabaseQuery: suspend() -> Int
 ): LiveData<Resource<Int>> =
-    liveData { 
+    liveData(Dispatchers.IO) { 
         emit(Resource.loading())
         val queryResult = chartDatabaseQuery.invoke()
         if(queryResult == 1){
